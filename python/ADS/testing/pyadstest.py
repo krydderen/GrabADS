@@ -11,14 +11,12 @@ print(plc.read_state())
 # Setup symbols
 ################################################################
 # Horizontal Axis 
-################################################################
 hEnable      = plc.get_symbol('HAVL.enable')
 hForward     = plc.get_symbol('HAVL.forward')
 hBackward    = plc.get_symbol('HAVL.backwards')
 hResetError  = plc.get_symbol('HAVL.resetError')
 ################################################################
 # Rotational Axis 
-################################################################
 rEnable      = plc.get_symbol('RAVL.enable')
 rForward     = plc.get_symbol('RAVL.forward')
 rBackward    = plc.get_symbol('RAVL.backwards')
@@ -26,7 +24,6 @@ rResetError  = plc.get_symbol('RAVL.resetError')
 
 ################################################################
 # Testing symbols
-################################################################
 hEnable.write(False)
 hForward.write(False)
 hBackward.write(False)
@@ -51,7 +48,6 @@ input('Enter to continue..')
 
 ################################################################
 # Resetting eventual error codes
-################################################################
 print('resetting')
 hResetError.write(True)
 sleep(1)
@@ -72,7 +68,6 @@ input('Enter to continue..')
 
 ################################################################
 # Driving Horizontal Axis 
-################################################################
 sleep(1)
 hEnable.write(True)
 # rEnable.write(True)
@@ -101,7 +96,6 @@ sleep(1)
 
 ################################################################
 # Driving Rotational Axis 
-################################################################
 sleep(1)
 # hEnable.write(True)
 rEnable.write(True)
@@ -131,6 +125,5 @@ sleep(1)
 
 ##############################################################
 # Close the connection 
-##############################################################
 plc.close()
 print('closed')
