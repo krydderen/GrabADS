@@ -11,7 +11,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import qdarkstyle
 
-
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -341,7 +340,11 @@ class Ui_MainWindow(object):
 
 
 if __name__ == "__main__":
-    import sys
+    import sys, os
+    sys.path.append(os.path.abspath("python/ADS/testing"))
+    from main import GRAB
+    grab = GRAB()
+    
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()

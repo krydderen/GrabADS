@@ -17,6 +17,10 @@ class GRAB(object):
         
     def getSymbols(self) -> None:
         ################################################################
+        # Grab State
+        self.grabState          = self.plc.get_symbol('GVL.grabState')
+        
+        ################################################################
         # Horizontal Axis 
         self.hEnable            = self.plc.get_symbol('HAVL.enable')
         self.hExtend            = self.plc.get_symbol('HAVL.extend')
@@ -42,11 +46,12 @@ class GRAB(object):
             self.plc.open()
             self.CONNECTION = True
             logging.info('Started')
+            self.plc.getSymbols()
         except Exception:
             logging.exception('Shit Broke bro')
     
     def getState(self):
-        logging.info(self.plc.read_state())
+        if self.CONNECTION: logging.info(self.plc.read_state())
     
     def close(self) -> None:
         if self.CONNECTION:
