@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'grabViXags.ui'
+## Form generated from reading UI file 'grabcGoVID.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.0.2
 ##
@@ -12,7 +12,6 @@ from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
 
-import style_rc
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -290,6 +289,8 @@ class Ui_MainWindow(object):
 
 
         QMetaObject.connectSlotsByName(MainWindow)
+        
+        self.resetButton.clicked.connect(self.buttonClick)
     # setupUi
 
     def retranslateUi(self, MainWindow):
@@ -328,4 +329,19 @@ class Ui_MainWindow(object):
         self.stopped.setText(QCoreApplication.translate("MainWindow", u"Stopped", None))
         self.error.setText(QCoreApplication.translate("MainWindow", u"Error", None))
     # retranslateUi
-
+    def buttonClick(self):
+        grab.resetAllAxis()
+        
+if __name__ == "__main__":
+    import sys, os, qdarkstyle
+    sys.path.append(os.path.abspath("python/ADS/testing"))
+    from main import GRAB
+    grab = GRAB()
+    
+    app = QApplication(sys.argv)
+    MainWindow = QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
+    MainWindow.show()
+    sys.exit(app.exec_())
