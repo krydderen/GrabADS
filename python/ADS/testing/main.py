@@ -17,29 +17,47 @@ class GRAB(object):
         
     def getSymbols(self) -> None:
         ################################################################
-        # Grab State
+        # Global Variable List
         self.grabState          = self.plc.get_symbol('GVL.grabState')
         
         ################################################################
         # Horizontal Axis 
-        self.hEnable            = self.plc.get_symbol('HAVL.enable')
-        self.hExtend            = self.plc.get_symbol('HAVL.extend')
-        self.hRetract           = self.plc.get_symbol('HAVL.retract')
-        self.hResetError        = self.plc.get_symbol('HAVL.resetError')
+        self.hEnable            :bool   = self.plc.get_symbol('HAVL.enable')
+        self.hEnableMove        :bool   = self.plc.get_symbol('HAVL.enableMove')
+        self.hExtend            :bool   = self.plc.get_symbol('HAVL.extend')
+        self.hRetract           :bool   = self.plc.get_symbol('HAVL.retract')
+        self.hResetError        :bool   = self.plc.get_symbol('HAVL.resetError')
+        
+        self.hBusy              :bool   = self.plc.get_symbol('HAVL.busy')
+        self.hRunning           :bool   = self.plc.get_symbol('HAVL.running')
+        self.hDone              :bool   = self.plc.get_symbol('HAVL.done')
+        
+        self.hTargetPosition    :float  = self.plc.get_symbol('HAVL.targetPosition')
+        self.hActualPosition    :float  = self.plc.get_symbol('HAVL.actualPosition')
+        self.hActialPositionInt :float  = self.plc.get_symbol('HAVL.actualPositionInt')
         
         ###############################################################
         # Rotational Axis 
-        self.rEnable            = self.plc.get_symbol('RAVL.enable')
-        self.rClockwise         = self.plc.get_symbol('RAVL.clockwise')
-        self.rCounterClockwise  = self.plc.get_symbol('RAVL.counterClockwise')
-        self.rResetError        = self.plc.get_symbol('RAVL.resetError')
+        self.rEnable            :bool   = self.plc.get_symbol('RAVL.enable')
+        self.hEnableMove        :bool   = self.plc.get_symbol('HAVL.enableMove')
+        self.rClockwise         :bool   = self.plc.get_symbol('RAVL.clockwise')
+        self.rCounterClockwise  :bool   = self.plc.get_symbol('RAVL.counterClockwise')
+        self.rResetError        :bool   = self.plc.get_symbol('RAVL.resetError')
         
+        self.rBusy              :bool   = self.plc.get_symbol('RAVL.busy')
+        self.rRunning           :bool   = self.plc.get_symbol('RAVL.running')
+        self.rDone              :bool   = self.plc.get_symbol('RAVL.done')
+        
+        self.rTargetPosition    :float  = self.plc.get_symbol('RAVL.targetPosition')
+        self.rActualPosition    :float  = self.plc.get_symbol('RAVL.actualPosition')
+        self.rActialPositionInt :float  = self.plc.get_symbol('RAVL.actualPositionInt')
         ###############################################################
         # Vertical Axis 
-        self.vEnable            = self.plc.get_symbol('VAVL.enable')
-        self.vAscend            = self.plc.get_symbol('VAVL.ascend')
-        self.vDescend           = self.plc.get_symbol('VAVL.descend')
-        self.vResetError        = self.plc.get_symbol('VAVL.resetError')
+        self.vEnable            :bool   = self.plc.get_symbol('VAVL.enable')
+        self.hEnableMove        :bool   = self.plc.get_symbol('HAVL.enableMove')
+        self.vAscend            :bool   = self.plc.get_symbol('VAVL.ascend')
+        self.vDescend           :bool   = self.plc.get_symbol('VAVL.descend')
+        self.vResetError        :bool   = self.plc.get_symbol('VAVL.resetError')
         
     def open(self) -> None:
         try:
@@ -120,28 +138,34 @@ class GRAB(object):
     # Enable or disable
     def enableHorizontalAxis(self):
         if self.CONNECTION: self.hEnable.write(True)
-        logging.info("Horizontal Axis:\t ENABLED")
+        logging.info("Horizontal Axis \t|\t ENABLED")
     
     def disableHorizontalAxis(self):
         if self.CONNECTION: self.hEnable.write(False)
-        logging.info("Horizontal Axis:\t DISABLED")
+        logging.info("Horizontal Axis \t|\t DISABLED")
         
     def enableRotationalAxis(self) -> None:
         if self.CONNECTION: self.rEnable.write(True)
-        logging.info("Rotational Axis:\t ENABLED")
+        logging.info("Rotational Axis \t|\t ENABLED")
     
     def disableRotationalAxis(self) -> None:
         if self.CONNECTION: self.rEnable.write(False)
-        logging.info("Rotational Axis:\t DISABLED")
+        logging.info("Rotational Axis \t|\t DISABLED")
 
     def enableVerticalAxis(self) -> None:
         if self.CONNECTION: self.vEnable.write(True)
-        logging.info("Vertical Axis:\t ENABLED")
+        logging.info("Vertical Axis \t|\t ENABLED")
     
     def disableVerticalAxis(self) -> None:
         if self.CONNECTION: self.vEnable.write(False)
-        logging.info("Vertical Axis:\t DISABLED")
+        logging.info("Vertical Axis \t|\t DISABLED")
     
+    def disableAllAxis(self) -> None:
+        if self.CONNECTION: 
+            self.disableHorizontalAxis()
+            self.disableRotationAxis()
+            self.disableVerticalAxis()
+        logging.info('All Axis \t|\t  DISABLED')
     ######################################################################
     # Operation for horizontal axis
     def startExtendSnake(self):
@@ -198,11 +222,21 @@ class GRAB(object):
         if self.CONNECTION: self.vDescend.write(True)
         logging.info("Vertical Axis |\t DESCENDING")
         
-    def stopVerticalAxis(self) -> None:
+    def stopVertical(self) -> None:
         if self.CONNECTION: self.vAscend.write(False)
         if self.CONNECTION: self.vDescend.write(False)
         logging.info("Vertical Axis |\t STOPPED")
     
+    ######################################################################
+    # Stop all 
+    def stopAllAxis(self) -> None:
+        if self.CONNECTION: self.stopVertical();self.stopRotation();self.stopHorizontal()
+        logging.info("All Axis |\t STOPPED")
+    
+    def disableAllAxis(self) -> None:
+        if self.CONNECTION: self.disableVerticalAxis();self.disableRotation
+        
+        
     ######################################################################
     # Testing functions
     def runTest(self) -> None:

@@ -56,6 +56,7 @@ class Ui_MainWindow(object):
         self.mainFunctionLayout = QHBoxLayout(self.horizontalLayoutWidget_2)
         self.mainFunctionLayout.setObjectName(u"mainFunctionLayout")
         self.mainFunctionLayout.setContentsMargins(0, 0, 0, 0)
+        
         self.homeButton = QPushButton(self.horizontalLayoutWidget_2)
         self.homeButton.setObjectName(u"homeButton")
         self.homeButton.setMinimumSize(QSize(80, 50))
@@ -69,6 +70,7 @@ class Ui_MainWindow(object):
         self.mainFunctionLayout.addWidget(self.homeButton)
 
         self.stopButton = QPushButton(self.horizontalLayoutWidget_2)
+        self.stopButton.clicked.connect(lambda: grab.stopAllAxis())
         self.stopButton.setObjectName(u"stopButton")
         self.stopButton.setMinimumSize(QSize(80, 50))
         self.stopButton.setMaximumSize(QSize(80, 50))
@@ -79,6 +81,7 @@ class Ui_MainWindow(object):
         self.mainFunctionLayout.addWidget(self.stopButton)
 
         self.resetButton = QPushButton(self.horizontalLayoutWidget_2)
+        self.resetButton.clicked.connect(lambda: grab.resetAllAxis())
         self.resetButton.setObjectName(u"resetButton")
         self.resetButton.setMinimumSize(QSize(80, 50))
         self.resetButton.setMaximumSize(QSize(80, 50))
@@ -113,20 +116,26 @@ class Ui_MainWindow(object):
         self.axis1Group = QGroupBox(self.axisFunctionsGroup)
         self.axis1Group.setObjectName(u"axis1Group")
         self.axis1Group.setGeometry(QRect(10, 20, 231, 131))
+        
         self.incrementAxis1 = QPushButton(self.axis1Group)
         self.incrementAxis1.setObjectName(u"incrementAxis1")
+        self.incrementAxis1.pressed.connect(lambda: grab.startExtendSnake())
+        self.incrementAxis1.released.connect(lambda: grab.stopExtendSnake())
         self.incrementAxis1.setGeometry(QRect(20, 30, 91, 41))
         font2 = QFont()
         font2.setPointSize(16)
         self.incrementAxis1.setFont(font2)
+        
         self.decrementAxis1 = QPushButton(self.axis1Group)
         self.decrementAxis1.setObjectName(u"decrementAxis1")
         self.decrementAxis1.setGeometry(QRect(20, 80, 91, 41))
         self.decrementAxis1.setFont(font2)
+        
         self.homeAxis1 = QPushButton(self.axis1Group)
         self.homeAxis1.setObjectName(u"homeAxis1")
         self.homeAxis1.setGeometry(QRect(120, 80, 91, 41))
         self.homeAxis1.setFont(font)
+        
         self.goToAxis1 = QLineEdit(self.axis1Group)
         self.goToAxis1.setObjectName(u"goToAxis1")
         self.goToAxis1.setGeometry(QRect(120, 30, 91, 41))
@@ -135,21 +144,26 @@ class Ui_MainWindow(object):
         self.goToAxis1.setMaxLength(100)
         self.goToAxis1.setAlignment(Qt.AlignCenter)
         self.goToAxis1.setClearButtonEnabled(False)
+        
         self.axis2Group = QGroupBox(self.axisFunctionsGroup)
         self.axis2Group.setObjectName(u"axis2Group")
         self.axis2Group.setGeometry(QRect(10, 170, 231, 131))
+        
         self.incrementAxis2 = QPushButton(self.axis2Group)
         self.incrementAxis2.setObjectName(u"incrementAxis2")
         self.incrementAxis2.setGeometry(QRect(20, 30, 91, 41))
         self.incrementAxis2.setFont(font2)
+        
         self.decrementAxis2 = QPushButton(self.axis2Group)
         self.decrementAxis2.setObjectName(u"decrementAxis2")
         self.decrementAxis2.setGeometry(QRect(20, 80, 91, 41))
         self.decrementAxis2.setFont(font2)
+        
         self.homeAxis2 = QPushButton(self.axis2Group)
         self.homeAxis2.setObjectName(u"homeAxis2")
         self.homeAxis2.setGeometry(QRect(120, 80, 91, 41))
         self.homeAxis2.setFont(font)
+        
         self.goToAxis2 = QLineEdit(self.axis2Group)
         self.goToAxis2.setObjectName(u"goToAxis2")
         self.goToAxis2.setGeometry(QRect(120, 30, 91, 41))
@@ -158,21 +172,26 @@ class Ui_MainWindow(object):
         self.goToAxis2.setMaxLength(100)
         self.goToAxis2.setAlignment(Qt.AlignCenter)
         self.goToAxis2.setClearButtonEnabled(False)
+        
         self.axis3Group = QGroupBox(self.axisFunctionsGroup)
         self.axis3Group.setObjectName(u"axis3Group")
         self.axis3Group.setGeometry(QRect(10, 320, 231, 131))
+        
         self.incrementAxis3 = QPushButton(self.axis3Group)
         self.incrementAxis3.setObjectName(u"incrementAxis3")
         self.incrementAxis3.setGeometry(QRect(20, 30, 91, 41))
         self.incrementAxis3.setFont(font2)
+        
         self.decrementAxis3 = QPushButton(self.axis3Group)
         self.decrementAxis3.setObjectName(u"decrementAxis3")
         self.decrementAxis3.setGeometry(QRect(20, 80, 91, 41))
         self.decrementAxis3.setFont(font2)
+        
         self.homeAxis3 = QPushButton(self.axis3Group)
         self.homeAxis3.setObjectName(u"homeAxis3")
         self.homeAxis3.setGeometry(QRect(120, 80, 91, 41))
         self.homeAxis3.setFont(font)
+        
         self.goToAxis3 = QLineEdit(self.axis3Group)
         self.goToAxis3.setObjectName(u"goToAxis3")
         self.goToAxis3.setGeometry(QRect(120, 30, 91, 41))
@@ -181,22 +200,27 @@ class Ui_MainWindow(object):
         self.goToAxis3.setMaxLength(100)
         self.goToAxis3.setAlignment(Qt.AlignCenter)
         self.goToAxis3.setClearButtonEnabled(False)
+        
         self.axis4Group = QGroupBox(self.axisFunctionsGroup)
         self.axis4Group.setObjectName(u"axis4Group")
         self.axis4Group.setEnabled(False)
         self.axis4Group.setGeometry(QRect(250, 20, 231, 131))
+        
         self.incrementAxis4 = QPushButton(self.axis4Group)
         self.incrementAxis4.setObjectName(u"incrementAxis4")
         self.incrementAxis4.setGeometry(QRect(20, 30, 91, 41))
         self.incrementAxis4.setFont(font2)
+        
         self.decrementAxis4 = QPushButton(self.axis4Group)
         self.decrementAxis4.setObjectName(u"decrementAxis4")
         self.decrementAxis4.setGeometry(QRect(20, 80, 91, 41))
         self.decrementAxis4.setFont(font2)
+        
         self.homeAxis4 = QPushButton(self.axis4Group)
         self.homeAxis4.setObjectName(u"homeAxis4")
         self.homeAxis4.setGeometry(QRect(120, 80, 91, 41))
         self.homeAxis4.setFont(font)
+        
         self.goToAxis4 = QLineEdit(self.axis4Group)
         self.goToAxis4.setObjectName(u"goToAxis4")
         self.goToAxis4.setGeometry(QRect(120, 30, 91, 41))
@@ -289,8 +313,6 @@ class Ui_MainWindow(object):
 
 
         QMetaObject.connectSlotsByName(MainWindow)
-        
-        self.resetButton.clicked.connect(self.buttonClick)
     # setupUi
 
     def retranslateUi(self, MainWindow):
@@ -329,9 +351,7 @@ class Ui_MainWindow(object):
         self.stopped.setText(QCoreApplication.translate("MainWindow", u"Stopped", None))
         self.error.setText(QCoreApplication.translate("MainWindow", u"Error", None))
     # retranslateUi
-    def buttonClick(self):
-        grab.resetAllAxis()
-        
+    
 if __name__ == "__main__":
     import sys, os, qdarkstyle
     sys.path.append(os.path.abspath("python/ADS/testing"))
