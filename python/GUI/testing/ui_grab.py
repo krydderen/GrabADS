@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'grabtEgFGP.ui'
+## Form generated from reading UI file 'grabcGoVID.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.0.2
 ##
@@ -12,7 +12,8 @@ from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
 
-class Ui_MainWindow(QMainWindow):
+
+class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
@@ -56,22 +57,21 @@ class Ui_MainWindow(QMainWindow):
         self.mainFunctionLayout.setObjectName(u"mainFunctionLayout")
         self.mainFunctionLayout.setContentsMargins(0, 0, 0, 0)
         
-        self.zeroButton = QPushButton(self.horizontalLayoutWidget_2)
-        self.zeroButton.setObjectName(u"zeroButton")
-        self.zeroButton.clicked.connect(lambda: grab.open())
-        self.zeroButton.setMinimumSize(QSize(80, 50))
-        self.zeroButton.setMaximumSize(QSize(80, 50))
+        self.homeButton = QPushButton(self.horizontalLayoutWidget_2)
+        self.homeButton.setObjectName(u"homeButton")
+        self.homeButton.setMinimumSize(QSize(80, 50))
+        self.homeButton.setMaximumSize(QSize(80, 50))
         font = QFont()
         font.setPointSize(10)
-        self.zeroButton.setFont(font)
-        self.zeroButton.setAutoDefault(False)
-        self.zeroButton.setFlat(False)
+        self.homeButton.setFont(font)
+        self.homeButton.setAutoDefault(False)
+        self.homeButton.setFlat(False)
 
-        self.mainFunctionLayout.addWidget(self.zeroButton)
+        self.mainFunctionLayout.addWidget(self.homeButton)
 
         self.stopButton = QPushButton(self.horizontalLayoutWidget_2)
-        self.stopButton.setObjectName(u"stopButton")
         self.stopButton.clicked.connect(lambda: grab.stopAllAxis())
+        self.stopButton.setObjectName(u"stopButton")
         self.stopButton.setMinimumSize(QSize(80, 50))
         self.stopButton.setMaximumSize(QSize(80, 50))
         self.stopButton.setFont(font)
@@ -81,8 +81,8 @@ class Ui_MainWindow(QMainWindow):
         self.mainFunctionLayout.addWidget(self.stopButton)
 
         self.resetButton = QPushButton(self.horizontalLayoutWidget_2)
+        self.resetButton.clicked.connect(lambda: grab.resetAllAxis())
         self.resetButton.setObjectName(u"resetButton")
-        self.resetButton.clicked.connect(lambda: grab.close())
         self.resetButton.setMinimumSize(QSize(80, 50))
         self.resetButton.setMaximumSize(QSize(80, 50))
         self.resetButton.setFont(font)
@@ -91,32 +91,20 @@ class Ui_MainWindow(QMainWindow):
 
         self.mainFunctionLayout.addWidget(self.resetButton)
 
-        self.disableButton = QPushButton(self.horizontalLayoutWidget_2)
-        self.disableButton.setObjectName(u"disableButton")
-        self.disableButton.clicked.connect(lambda: grab.disableAllAxis())
-        self.disableButton.setMinimumSize(QSize(80, 50))
-        self.disableButton.setMaximumSize(QSize(80, 50))
+        self.setButton = QPushButton(self.horizontalLayoutWidget_2)
+        self.setButton.setObjectName(u"setButton")
+        self.setButton.setMinimumSize(QSize(80, 50))
+        self.setButton.setMaximumSize(QSize(80, 50))
         font1 = QFont()
         font1.setPointSize(10)
         font1.setBold(False)
         font1.setItalic(False)
         font1.setKerning(True)
-        self.disableButton.setFont(font1)
-        self.disableButton.setAutoDefault(False)
-        self.disableButton.setFlat(False)
+        self.setButton.setFont(font1)
+        self.setButton.setAutoDefault(False)
+        self.setButton.setFlat(False)
 
-        self.mainFunctionLayout.addWidget(self.disableButton)
-
-        self.menuButton = QPushButton(self.horizontalLayoutWidget_2)
-        self.menuButton.setObjectName(u"menuButton")
-        self.menuButton.clicked.connect(lambda: grab.homingToManual())
-        self.menuButton.setMinimumSize(QSize(80, 50))
-        self.menuButton.setMaximumSize(QSize(80, 50))
-        self.menuButton.setFont(font1)
-        self.menuButton.setAutoDefault(False)
-        self.menuButton.setFlat(False)
-
-        self.mainFunctionLayout.addWidget(self.menuButton)
+        self.mainFunctionLayout.addWidget(self.setButton)
 
 
         self.functionsLayout.addWidget(self.mainFunctionGroup)
@@ -125,10 +113,8 @@ class Ui_MainWindow(QMainWindow):
         self.axisFunctionsGroup.setObjectName(u"axisFunctionsGroup")
         self.axisFunctionsGroup.setMinimumSize(QSize(500, 490))
         self.axisFunctionsGroup.setMaximumSize(QSize(500, 490))
-        
         self.axis1Group = QGroupBox(self.axisFunctionsGroup)
         self.axis1Group.setObjectName(u"axis1Group")
-        self.axis1Group.setEnabled(False)
         self.axis1Group.setGeometry(QRect(10, 20, 231, 131))
         
         self.incrementAxis1 = QPushButton(self.axis1Group)
@@ -142,63 +128,78 @@ class Ui_MainWindow(QMainWindow):
         
         self.decrementAxis1 = QPushButton(self.axis1Group)
         self.decrementAxis1.setObjectName(u"decrementAxis1")
-        self.decrementAxis1.pressed.connect(lambda: grab.startRetractSnake())
-        self.decrementAxis1.released.connect(lambda: grab.stopRetractSnake())
         self.decrementAxis1.setGeometry(QRect(20, 80, 91, 41))
         self.decrementAxis1.setFont(font2)
         
-        self.zeroAxis1 = QPushButton(self.axis1Group)
-        self.zeroAxis1.setObjectName(u"zeroAxis1")
-        self.zeroAxis1.setGeometry(QRect(120, 80, 91, 41))
-        self.zeroAxis1.setFont(font)
+        self.homeAxis1 = QPushButton(self.axis1Group)
+        self.homeAxis1.setObjectName(u"homeAxis1")
+        self.homeAxis1.setGeometry(QRect(120, 80, 91, 41))
+        self.homeAxis1.setFont(font)
+        
+        self.goToAxis1 = QLineEdit(self.axis1Group)
+        self.goToAxis1.setObjectName(u"goToAxis1")
+        self.goToAxis1.setGeometry(QRect(120, 30, 91, 41))
+        self.goToAxis1.setFont(font)
+        self.goToAxis1.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.goToAxis1.setMaxLength(100)
+        self.goToAxis1.setAlignment(Qt.AlignCenter)
+        self.goToAxis1.setClearButtonEnabled(False)
         
         self.axis2Group = QGroupBox(self.axisFunctionsGroup)
         self.axis2Group.setObjectName(u"axis2Group")
-        self.axis2Group.setEnabled(False)
         self.axis2Group.setGeometry(QRect(10, 170, 231, 131))
         
         self.incrementAxis2 = QPushButton(self.axis2Group)
         self.incrementAxis2.setObjectName(u"incrementAxis2")
-        self.incrementAxis2.pressed.connect(lambda: grab.moveRotationClockwise())
-        self.incrementAxis2.released.connect(lambda: grab.stopRotationClockwise())
         self.incrementAxis2.setGeometry(QRect(20, 30, 91, 41))
         self.incrementAxis2.setFont(font2)
         
         self.decrementAxis2 = QPushButton(self.axis2Group)
         self.decrementAxis2.setObjectName(u"decrementAxis2")
-        self.decrementAxis2.pressed.connect(lambda: grab.moveRotationCounterClockwise())
-        self.decrementAxis2.released.connect(lambda: grab.stopRotationCounterClockwise())
         self.decrementAxis2.setGeometry(QRect(20, 80, 91, 41))
         self.decrementAxis2.setFont(font2)
         
-        self.zeroAxis2 = QPushButton(self.axis2Group)
-        self.zeroAxis2.setObjectName(u"zeroAxis2")
-        self.zeroAxis2.setGeometry(QRect(120, 80, 91, 41))
-        self.zeroAxis2.setFont(font)
+        self.homeAxis2 = QPushButton(self.axis2Group)
+        self.homeAxis2.setObjectName(u"homeAxis2")
+        self.homeAxis2.setGeometry(QRect(120, 80, 91, 41))
+        self.homeAxis2.setFont(font)
+        
+        self.goToAxis2 = QLineEdit(self.axis2Group)
+        self.goToAxis2.setObjectName(u"goToAxis2")
+        self.goToAxis2.setGeometry(QRect(120, 30, 91, 41))
+        self.goToAxis2.setFont(font)
+        self.goToAxis2.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.goToAxis2.setMaxLength(100)
+        self.goToAxis2.setAlignment(Qt.AlignCenter)
+        self.goToAxis2.setClearButtonEnabled(False)
         
         self.axis3Group = QGroupBox(self.axisFunctionsGroup)
         self.axis3Group.setObjectName(u"axis3Group")
-        self.axis3Group.setEnabled(False)
         self.axis3Group.setGeometry(QRect(10, 320, 231, 131))
         
         self.incrementAxis3 = QPushButton(self.axis3Group)
         self.incrementAxis3.setObjectName(u"incrementAxis3")
-        self.incrementAxis3.pressed.connect(lambda: grab.ascendVerticalAxis())
-        self.incrementAxis3.released.connect(lambda: grab.stopVertical())
         self.incrementAxis3.setGeometry(QRect(20, 30, 91, 41))
         self.incrementAxis3.setFont(font2)
         
         self.decrementAxis3 = QPushButton(self.axis3Group)
         self.decrementAxis3.setObjectName(u"decrementAxis3")
-        self.decrementAxis3.pressed.connect(lambda: grab.descendVerticalAxis())
-        self.decrementAxis3.released.connect(lambda: grab.stopVertical())
         self.decrementAxis3.setGeometry(QRect(20, 80, 91, 41))
         self.decrementAxis3.setFont(font2)
         
-        self.zeroAxis3 = QPushButton(self.axis3Group)
-        self.zeroAxis3.setObjectName(u"zeroAxis3")
-        self.zeroAxis3.setGeometry(QRect(120, 80, 91, 41))
-        self.zeroAxis3.setFont(font)
+        self.homeAxis3 = QPushButton(self.axis3Group)
+        self.homeAxis3.setObjectName(u"homeAxis3")
+        self.homeAxis3.setGeometry(QRect(120, 80, 91, 41))
+        self.homeAxis3.setFont(font)
+        
+        self.goToAxis3 = QLineEdit(self.axis3Group)
+        self.goToAxis3.setObjectName(u"goToAxis3")
+        self.goToAxis3.setGeometry(QRect(120, 30, 91, 41))
+        self.goToAxis3.setFont(font)
+        self.goToAxis3.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.goToAxis3.setMaxLength(100)
+        self.goToAxis3.setAlignment(Qt.AlignCenter)
+        self.goToAxis3.setClearButtonEnabled(False)
         
         self.axis4Group = QGroupBox(self.axisFunctionsGroup)
         self.axis4Group.setObjectName(u"axis4Group")
@@ -215,31 +216,19 @@ class Ui_MainWindow(QMainWindow):
         self.decrementAxis4.setGeometry(QRect(20, 80, 91, 41))
         self.decrementAxis4.setFont(font2)
         
-        self.zeroAxis4 = QPushButton(self.axis4Group)
-        self.zeroAxis4.setObjectName(u"zeroAxis4")
-        self.zeroAxis4.setGeometry(QRect(120, 80, 91, 41))
-        self.zeroAxis4.setFont(font)
+        self.homeAxis4 = QPushButton(self.axis4Group)
+        self.homeAxis4.setObjectName(u"homeAxis4")
+        self.homeAxis4.setGeometry(QRect(120, 80, 91, 41))
+        self.homeAxis4.setFont(font)
         
-        self.axisEnableGroup = QGroupBox(self.axisFunctionsGroup)
-        self.axisEnableGroup.setObjectName(u"axisEnableGroup")
-        self.axisEnableGroup.setGeometry(QRect(250, 170, 231, 281))
-        
-        self.horizontalAxisEnableCheckBox = QCheckBox(self.axisEnableGroup)
-        self.horizontalAxisEnableCheckBox.setObjectName(u"horizontalAxisEnableCheckBox")
-        self.horizontalAxisEnableCheckBox.setGeometry(QRect(20, 30, 191, 41))
-        
-        self.rotationalAxisEnableCheckBox = QCheckBox(self.axisEnableGroup)
-        self.rotationalAxisEnableCheckBox.setObjectName(u"rotationalAxisEnableCheckBox")
-        self.rotationalAxisEnableCheckBox.setGeometry(QRect(20, 80, 191, 41))
-        
-        self.snakeAxisCheckBox = QCheckBox(self.axisEnableGroup)
-        self.snakeAxisCheckBox.setObjectName(u"snakeAxisCheckBox")
-        self.snakeAxisCheckBox.setEnabled(False)
-        self.snakeAxisCheckBox.setGeometry(QRect(20, 180, 191, 41))
-        
-        self.verticalAxisEnableCheckBox = QCheckBox(self.axisEnableGroup)
-        self.verticalAxisEnableCheckBox.setObjectName(u"verticalAxisEnableCheckBox")
-        self.verticalAxisEnableCheckBox.setGeometry(QRect(20, 130, 191, 41))
+        self.goToAxis4 = QLineEdit(self.axis4Group)
+        self.goToAxis4.setObjectName(u"goToAxis4")
+        self.goToAxis4.setGeometry(QRect(120, 30, 91, 41))
+        self.goToAxis4.setFont(font)
+        self.goToAxis4.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.goToAxis4.setMaxLength(100)
+        self.goToAxis4.setAlignment(Qt.AlignCenter)
+        self.goToAxis4.setClearButtonEnabled(False)
 
         self.functionsLayout.addWidget(self.axisFunctionsGroup)
 
@@ -251,11 +240,9 @@ class Ui_MainWindow(QMainWindow):
         self.verticalGroupBox.setMinimumSize(QSize(200, 393))
         self.verticalGroupBox.setMaximumSize(QSize(200, 16777215))
         self.verticalGroupBox.setFlat(False)
-        
         self.verticalLayout = QVBoxLayout(self.verticalGroupBox)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setSizeConstraint(QLayout.SetMinAndMaxSize)
-        
         self.statusGroup = QGroupBox(self.verticalGroupBox)
         self.statusGroup.setObjectName(u"statusGroup")
         sizePolicy1 = QSizePolicy(QSizePolicy.Maximum, QSizePolicy.Maximum)
@@ -318,81 +305,44 @@ class Ui_MainWindow(QMainWindow):
         MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
-        self.horizontalAxisEnableCheckBox.toggled.connect(self.toggleHorizontalAxis)
-        self.rotationalAxisEnableCheckBox.toggled.connect(self.toggleRotationalAxis)
-        self.verticalAxisEnableCheckBox.toggled.connect(self.toggleVerticalAxis)
-        self.snakeAxisCheckBox.toggled.connect(self.axis4Group.setEnabled)
-        self.disableButton.clicked.connect(self.disableAllAxis)
 
-        self.zeroButton.setDefault(False)
+        self.homeButton.setDefault(False)
         self.stopButton.setDefault(False)
         self.resetButton.setDefault(False)
-        self.disableButton.setDefault(False)
-        self.menuButton.setDefault(False)
-        
+        self.setButton.setDefault(False)
+
+
         QMetaObject.connectSlotsByName(MainWindow)
     # setupUi
-    
-    def disableAllAxis(self):
-        self.horizontalAxisEnableCheckBox.setChecked(False)
-        self.rotationalAxisEnableCheckBox.setChecked(False)
-        self.verticalAxisEnableCheckBox.setChecked(False)
-        self.snakeAxisCheckBox.setChecked(False)
-    
-    def toggleHorizontalAxis(self):
-        if not self.axis1Group.isEnabled():
-            self.axis1Group.setEnabled(True)
-            grab.enableHorizontalAxis()
-        else:
-            self.axis1Group.setEnabled(False)
-            grab.disableHorizontalAxis()
-    
-    def toggleRotationalAxis(self):
-        if not self.axis2Group.isEnabled():
-            self.axis2Group.setEnabled(True)
-            grab.enableRotationalAxis()
-        else:
-            self.axis2Group.setEnabled(False)
-            grab.disableRotationalAxis()
-            
-    def toggleVerticalAxis(self):
-        if not self.axis3Group.isEnabled():
-            self.axis3Group.setEnabled(True)
-            grab.enableVerticalAxis()
-        else:
-            self.axis3Group.setEnabled(False)
-            grab.disableVerticalAxis()
-    
+
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Grab2.0", None))
         self.mainFunctionGroup.setTitle(QCoreApplication.translate("MainWindow", u"Main Functions", None))
-        self.zeroButton.setText(QCoreApplication.translate("MainWindow", u"Open", None))
+        self.homeButton.setText(QCoreApplication.translate("MainWindow", u"Home", None))
         self.stopButton.setText(QCoreApplication.translate("MainWindow", u"Stop", None))
         self.resetButton.setText(QCoreApplication.translate("MainWindow", u"Reset", None))
-        self.disableButton.setText(QCoreApplication.translate("MainWindow", u"Disable", None))
-        self.menuButton.setText(QCoreApplication.translate("MainWindow", u"Homing", None))
+        self.setButton.setText(QCoreApplication.translate("MainWindow", u"Set", None))
         self.axisFunctionsGroup.setTitle(QCoreApplication.translate("MainWindow", u"Axis Functions", None))
         self.axis1Group.setTitle(QCoreApplication.translate("MainWindow", u"Axis 1", None))
         self.incrementAxis1.setText(QCoreApplication.translate("MainWindow", u"+", None))
         self.decrementAxis1.setText(QCoreApplication.translate("MainWindow", u"-", None))
-        self.zeroAxis1.setText(QCoreApplication.translate("MainWindow", u"Zero", None))
+        self.homeAxis1.setText(QCoreApplication.translate("MainWindow", u"Home", None))
+        self.goToAxis1.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Go to value", None))
         self.axis2Group.setTitle(QCoreApplication.translate("MainWindow", u"Axis 2", None))
         self.incrementAxis2.setText(QCoreApplication.translate("MainWindow", u"+", None))
         self.decrementAxis2.setText(QCoreApplication.translate("MainWindow", u"-", None))
-        self.zeroAxis2.setText(QCoreApplication.translate("MainWindow", u"Zero", None))
+        self.homeAxis2.setText(QCoreApplication.translate("MainWindow", u"Home", None))
+        self.goToAxis2.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Go to value", None))
         self.axis3Group.setTitle(QCoreApplication.translate("MainWindow", u"Axis 3", None))
         self.incrementAxis3.setText(QCoreApplication.translate("MainWindow", u"+", None))
         self.decrementAxis3.setText(QCoreApplication.translate("MainWindow", u"-", None))
-        self.zeroAxis3.setText(QCoreApplication.translate("MainWindow", u"Zero", None))
+        self.homeAxis3.setText(QCoreApplication.translate("MainWindow", u"Home", None))
+        self.goToAxis3.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Go to value", None))
         self.axis4Group.setTitle(QCoreApplication.translate("MainWindow", u"Axis 4", None))
         self.incrementAxis4.setText(QCoreApplication.translate("MainWindow", u"+", None))
         self.decrementAxis4.setText(QCoreApplication.translate("MainWindow", u"-", None))
-        self.zeroAxis4.setText(QCoreApplication.translate("MainWindow", u"Zero", None))
-        self.axisEnableGroup.setTitle(QCoreApplication.translate("MainWindow", u"Enable Axis", None))
-        self.horizontalAxisEnableCheckBox.setText(QCoreApplication.translate("MainWindow", u"Horizontal Axis", None))
-        self.rotationalAxisEnableCheckBox.setText(QCoreApplication.translate("MainWindow", u"Rotational Axis", None))
-        self.snakeAxisCheckBox.setText(QCoreApplication.translate("MainWindow", u"Snake Axis", None))
-        self.verticalAxisEnableCheckBox.setText(QCoreApplication.translate("MainWindow", u"Vertical Axis", None))
+        self.homeAxis4.setText(QCoreApplication.translate("MainWindow", u"Home", None))
+        self.goToAxis4.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Go to value", None))
         self.statusGroup.setTitle(QCoreApplication.translate("MainWindow", u"Status", None))
         self.powerOn.setText(QCoreApplication.translate("MainWindow", u"Power On", None))
         self.enabled.setText(QCoreApplication.translate("MainWindow", u"Enabled", None))
@@ -402,28 +352,14 @@ class Ui_MainWindow(QMainWindow):
         self.error.setText(QCoreApplication.translate("MainWindow", u"Error", None))
     # retranslateUi
     
-
 if __name__ == "__main__":
-    import sys, os, qdarkstyle, time
+    import sys, os, qdarkstyle
     sys.path.append(os.path.abspath("python/ADS"))
-    from main import GRAB
-    grab = GRAB()
+    
     app = QApplication(sys.argv)
     MainWindow = QMainWindow()
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
-    style = qdarkstyle.load_stylesheet()
-    app.setStyleSheet(style)
+    app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
     MainWindow.show()
-    app.exec_()
-    # sys.exit(app.exec_())
-    grab.stopAllAxis()
-    time.sleep(0.2)
-    grab.disableAllAxis()
-    time.sleep(0.2)
-    grab.close()
-    
-    
-    
-    # Connect CONNECTION  to a radio button
-    # Disable everything when homing is active
+    sys.exit(app.exec_())

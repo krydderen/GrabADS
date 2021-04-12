@@ -340,15 +340,12 @@ class Ui_MainWindow(object):
 
 
 if __name__ == "__main__":
-    import sys, os
-    sys.path.append(os.path.abspath("python/ADS/testing"))
-    from main import GRAB
-    grab = GRAB()
+    import sys
     
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
-    app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
+    # app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
     MainWindow.show()
     sys.exit(app.exec_())

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'grabtEgFGP.ui'
+## Form generated from reading UI file 'designerLiPdes.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.0.2
 ##
@@ -12,7 +12,150 @@ from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
 
-class Ui_MainWindow(QMainWindow):
+class Ui_MainWindow(object):
+    def setupUi(self, MainWindow):
+        if not MainWindow.objectName():
+            MainWindow.setObjectName(u"MainWindow")
+        MainWindow.resize(713, 658)
+        self.centralwidget = QWidget(MainWindow)
+        self.centralwidget.setObjectName(u"centralwidget")
+        self.horizontalLayout = QHBoxLayout(self.centralwidget)
+        self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.horizontalLayout_2 = QHBoxLayout()
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Preferred, QSizePolicy.Minimum)
+
+        self.horizontalLayout_2.addItem(self.horizontalSpacer_2)
+
+        self.verticalLayout = QVBoxLayout()
+        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.verticalLayout.addItem(self.verticalSpacer)
+
+        self.titleTextLabel = QLabel(self.centralwidget)
+        self.titleTextLabel.setObjectName(u"titleTextLabel")
+        font = QFont()
+        font.setPointSize(36)
+        font.setBold(True)
+        font.setItalic(True)
+        self.titleTextLabel.setFont(font)
+        self.titleTextLabel.setLayoutDirection(Qt.LeftToRight)
+        self.titleTextLabel.setAutoFillBackground(False)
+        self.titleTextLabel.setFrameShadow(QFrame.Plain)
+        self.titleTextLabel.setTextFormat(Qt.AutoText)
+        self.titleTextLabel.setScaledContents(False)
+        self.titleTextLabel.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout.addWidget(self.titleTextLabel)
+
+        self.verticalSpacer_3 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Fixed)
+
+        self.verticalLayout.addItem(self.verticalSpacer_3)
+
+        self.openButton = QPushButton(self.centralwidget)
+        self.openButton.setObjectName(u"openButton")
+        self.openButton.clicked.connect(lambda: grab.open())
+        self.openButton.setMinimumSize(QSize(185, 60))
+        self.openButton.setMaximumSize(QSize(185, 16777215))
+        font1 = QFont()
+        font1.setPointSize(18)
+        self.openButton.setFont(font1)
+
+        self.verticalLayout.addWidget(self.openButton, 0, Qt.AlignHCenter|Qt.AlignVCenter)
+
+        self.verticalSpacer_7 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Minimum)
+
+        self.verticalLayout.addItem(self.verticalSpacer_7)
+
+        self.homingButton = QPushButton(self.centralwidget)
+        self.homingButton.setObjectName(u"homingButton")
+        self.homingButton.clicked.connect(lambda: grab.startHoming())
+        self.homingButton.setMinimumSize(QSize(185, 60))
+        self.homingButton.setMaximumSize(QSize(185, 16777215))
+        self.homingButton.setFont(font1)
+
+        self.verticalLayout.addWidget(self.homingButton, 0, Qt.AlignHCenter)
+
+        self.verticalSpacer_6 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Minimum)
+
+        self.verticalLayout.addItem(self.verticalSpacer_6)
+
+        self.manualButton = QPushButton(self.centralwidget)
+        self.manualButton.clicked.connect(self.menuToManual)
+        self.manualButton.setObjectName(u"manualButton")
+        self.manualButton.setMinimumSize(QSize(185, 60))
+        self.manualButton.setMaximumSize(QSize(185, 16777215))
+        self.manualButton.setFont(font1)
+
+        self.verticalLayout.addWidget(self.manualButton, 0, Qt.AlignHCenter|Qt.AlignVCenter)
+
+        self.verticalSpacer_5 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Minimum)
+
+        self.verticalLayout.addItem(self.verticalSpacer_5)
+
+        self.setPosButton = QPushButton(self.centralwidget)
+        self.setPosButton.setObjectName(u"setPosButton")
+        self.setPosButton.setMinimumSize(QSize(185, 60))
+        self.setPosButton.setMaximumSize(QSize(185, 16777215))
+        self.setPosButton.setFont(font1)
+
+        self.verticalLayout.addWidget(self.setPosButton, 0, Qt.AlignHCenter|Qt.AlignVCenter)
+
+        self.verticalSpacer_4 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Minimum)
+
+        self.verticalLayout.addItem(self.verticalSpacer_4)
+
+        self.pickBoxButton = QPushButton(self.centralwidget)
+        self.pickBoxButton.setObjectName(u"pickBoxButton")
+        self.pickBoxButton.setMinimumSize(QSize(185, 60))
+        self.pickBoxButton.setMaximumSize(QSize(185, 16777215))
+        self.pickBoxButton.setFont(font1)
+
+        self.verticalLayout.addWidget(self.pickBoxButton, 0, Qt.AlignHCenter|Qt.AlignVCenter)
+
+        self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.verticalLayout.addItem(self.verticalSpacer_2)
+
+
+        self.horizontalLayout_2.addLayout(self.verticalLayout)
+
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Preferred, QSizePolicy.Minimum)
+
+        self.horizontalLayout_2.addItem(self.horizontalSpacer)
+
+
+        self.horizontalLayout.addLayout(self.horizontalLayout_2)
+
+        MainWindow.setCentralWidget(self.centralwidget)
+        QWidget.setTabOrder(self.openButton, self.homingButton)
+        QWidget.setTabOrder(self.homingButton, self.manualButton)
+        QWidget.setTabOrder(self.manualButton, self.setPosButton)
+        QWidget.setTabOrder(self.setPosButton, self.pickBoxButton)
+
+        self.retranslateUi(MainWindow)
+
+        QMetaObject.connectSlotsByName(MainWindow)
+    # setupUi
+
+    def retranslateUi(self, MainWindow):
+        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
+        self.titleTextLabel.setText(QCoreApplication.translate("MainWindow", u"GRAB 2.0", None))
+        self.openButton.setText(QCoreApplication.translate("MainWindow", u"Open Coms.", None))
+        self.homingButton.setText(QCoreApplication.translate("MainWindow", u"Homing", None))
+        self.manualButton.setText(QCoreApplication.translate("MainWindow", u"Manual", None))
+        self.setPosButton.setText(QCoreApplication.translate("MainWindow", u"Set Position", None))
+        self.pickBoxButton.setText(QCoreApplication.translate("MainWindow", u"Pick BOX", None))
+    # retranslateUi
+
+    def menuToManual(self):
+        MainWindow.hide()
+        grab.manualMode()
+        ManualWindow.show()
+
+
+class manualModeWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
@@ -58,7 +201,6 @@ class Ui_MainWindow(QMainWindow):
         
         self.zeroButton = QPushButton(self.horizontalLayoutWidget_2)
         self.zeroButton.setObjectName(u"zeroButton")
-        self.zeroButton.clicked.connect(lambda: grab.open())
         self.zeroButton.setMinimumSize(QSize(80, 50))
         self.zeroButton.setMaximumSize(QSize(80, 50))
         font = QFont()
@@ -109,7 +251,7 @@ class Ui_MainWindow(QMainWindow):
 
         self.menuButton = QPushButton(self.horizontalLayoutWidget_2)
         self.menuButton.setObjectName(u"menuButton")
-        self.menuButton.clicked.connect(lambda: grab.homingToManual())
+        self.menuButton.clicked.connect(self.manualToMenu)
         self.menuButton.setMinimumSize(QSize(80, 50))
         self.menuButton.setMaximumSize(QSize(80, 50))
         self.menuButton.setFont(font1)
@@ -366,11 +508,11 @@ class Ui_MainWindow(QMainWindow):
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Grab2.0", None))
         self.mainFunctionGroup.setTitle(QCoreApplication.translate("MainWindow", u"Main Functions", None))
-        self.zeroButton.setText(QCoreApplication.translate("MainWindow", u"Open", None))
+        self.zeroButton.setText(QCoreApplication.translate("MainWindow", u"Zero", None))
         self.stopButton.setText(QCoreApplication.translate("MainWindow", u"Stop", None))
         self.resetButton.setText(QCoreApplication.translate("MainWindow", u"Reset", None))
         self.disableButton.setText(QCoreApplication.translate("MainWindow", u"Disable", None))
-        self.menuButton.setText(QCoreApplication.translate("MainWindow", u"Homing", None))
+        self.menuButton.setText(QCoreApplication.translate("MainWindow", u"Menu", None))
         self.axisFunctionsGroup.setTitle(QCoreApplication.translate("MainWindow", u"Axis Functions", None))
         self.axis1Group.setTitle(QCoreApplication.translate("MainWindow", u"Axis 1", None))
         self.incrementAxis1.setText(QCoreApplication.translate("MainWindow", u"+", None))
@@ -402,28 +544,36 @@ class Ui_MainWindow(QMainWindow):
         self.error.setText(QCoreApplication.translate("MainWindow", u"Error", None))
     # retranslateUi
     
+    # retranslateUi 
+    def manualToMenu(self):
+        MainWindow.show()
+        grab.standbyMode()
+        ManualWindow.hide()
+
 
 if __name__ == "__main__":
     import sys, os, qdarkstyle, time
-    sys.path.append(os.path.abspath("python/ADS"))
+    sys.path.append(os.path.abspath("python/ADS/"))
     from main import GRAB
-    grab = GRAB()
+    grab = GRAB() 
+    
     app = QApplication(sys.argv)
+    
     MainWindow = QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    style = qdarkstyle.load_stylesheet()
-    app.setStyleSheet(style)
+    ManualWindow = QMainWindow()
+    
+    menuui = Ui_MainWindow()
+    manualui = manualModeWindow()
+    
+    menuui.setupUi(MainWindow)
+    manualui.setupUi(ManualWindow)
+    app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
     MainWindow.show()
-    app.exec_()
+    ManualWindow.hide()
     # sys.exit(app.exec_())
+    app.exec_()
     grab.stopAllAxis()
     time.sleep(0.2)
     grab.disableAllAxis()
     time.sleep(0.2)
     grab.close()
-    
-    
-    
-    # Connect CONNECTION  to a radio button
-    # Disable everything when homing is active

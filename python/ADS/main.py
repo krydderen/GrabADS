@@ -9,6 +9,9 @@ class GRAB(object):
     DRIVETIME   :float  = 1
     CMDDELAY    :float  = 0.2
     CONNECTION  :bool   = False
+    STANDBY     :int    = 0
+    HOMINGMODE  :int    = 1
+    MANUALMODE  :int    = 2
     
     def __init__(self):
         self.plc = pyads.Connection(self.AMS_ADDRESS, self.PORT)
@@ -75,10 +78,24 @@ class GRAB(object):
     
     def close(self) -> None:
         if self.CONNECTION:
-            self.grabState.write(0)
+            self.grabState.write(STANDBY)
             self.plc.close()
             self.CONNECTION = False
         logging.info('Stopped')
+    
+    ######################################################################
+    # Global Variable changes
+    def standbyMode(self) -> None:
+        if self.CONNECTION: grabState.write(STANDBY)
+        logging.info('Current State: \t  STANDBY')
+        
+    def homingMode(self) -> None:
+        if self.CONNECTION: grabState.write(HOMINGMODE)
+        logging.info('Current State: \t  HOMINGMODE')
+        
+    def manualMode(self) -> None:
+        if self.CONNECTION: grabState.write(MANUALMODE)
+        logging.info('Current State: \t  MANUALMODE')
     
     ######################################################################
     # Reading the different axis
@@ -114,9 +131,10 @@ class GRAB(object):
             self.rResetError.write(True)
             self.hResetError.write(True)
             
-    def homingToManual(self):
+    def startHoming(self):
         if self.CONNECTION:
-            self.grabState.write(1)
+            # self.grabState.write(1)
+            self.homingMode()
             logging.info("ALL Axis:\t HOMING....")
             sleep(0.2)
             print(self.homingDone.read())
@@ -126,7 +144,8 @@ class GRAB(object):
             self.homingDone.write(False)
             logging.info("ALL Axis:\t HOMING DONE")
             sleep(0.2)
-            self.grabState.write(2)
+            # Testing GUI
+            # self.grabState.write(2)
         else:
             logging.info("ALL Axis:\t HOMING")
             logging.info("ALL Axis:\t HOMING DONE")

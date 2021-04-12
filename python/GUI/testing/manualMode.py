@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'grabtEgFGP.ui'
+## Form generated from reading UI file 'grabynvIPC.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.0.2
 ##
@@ -12,14 +12,18 @@ from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
 
-class Ui_MainWindow(QMainWindow):
+
+class manualModeWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
-            MainWindow.setObjectName(u"MainWindow")
+            MainWindow.setObjectName(u"manualModeWindow")
         MainWindow.resize(870, 635)
         MainWindow.setMinimumSize(QSize(870, 635))
         MainWindow.setMaximumSize(QSize(870, 635))
         MainWindow.setAutoFillBackground(False)
+        MainWindow.setStyleSheet(u"background-color: rgb(81, 39, 77);\n"
+"color: rgb(252, 124, 44);\n"
+"border-color: rgb(0, 0, 0);")
         MainWindow.setDocumentMode(False)
         MainWindow.setTabShape(QTabWidget.Rounded)
         MainWindow.setDockNestingEnabled(False)
@@ -55,10 +59,8 @@ class Ui_MainWindow(QMainWindow):
         self.mainFunctionLayout = QHBoxLayout(self.horizontalLayoutWidget_2)
         self.mainFunctionLayout.setObjectName(u"mainFunctionLayout")
         self.mainFunctionLayout.setContentsMargins(0, 0, 0, 0)
-        
         self.zeroButton = QPushButton(self.horizontalLayoutWidget_2)
         self.zeroButton.setObjectName(u"zeroButton")
-        self.zeroButton.clicked.connect(lambda: grab.open())
         self.zeroButton.setMinimumSize(QSize(80, 50))
         self.zeroButton.setMaximumSize(QSize(80, 50))
         font = QFont()
@@ -71,7 +73,6 @@ class Ui_MainWindow(QMainWindow):
 
         self.stopButton = QPushButton(self.horizontalLayoutWidget_2)
         self.stopButton.setObjectName(u"stopButton")
-        self.stopButton.clicked.connect(lambda: grab.stopAllAxis())
         self.stopButton.setMinimumSize(QSize(80, 50))
         self.stopButton.setMaximumSize(QSize(80, 50))
         self.stopButton.setFont(font)
@@ -82,7 +83,6 @@ class Ui_MainWindow(QMainWindow):
 
         self.resetButton = QPushButton(self.horizontalLayoutWidget_2)
         self.resetButton.setObjectName(u"resetButton")
-        self.resetButton.clicked.connect(lambda: grab.close())
         self.resetButton.setMinimumSize(QSize(80, 50))
         self.resetButton.setMaximumSize(QSize(80, 50))
         self.resetButton.setFont(font)
@@ -93,7 +93,6 @@ class Ui_MainWindow(QMainWindow):
 
         self.disableButton = QPushButton(self.horizontalLayoutWidget_2)
         self.disableButton.setObjectName(u"disableButton")
-        self.disableButton.clicked.connect(lambda: grab.disableAllAxis())
         self.disableButton.setMinimumSize(QSize(80, 50))
         self.disableButton.setMaximumSize(QSize(80, 50))
         font1 = QFont()
@@ -109,7 +108,6 @@ class Ui_MainWindow(QMainWindow):
 
         self.menuButton = QPushButton(self.horizontalLayoutWidget_2)
         self.menuButton.setObjectName(u"menuButton")
-        self.menuButton.clicked.connect(lambda: grab.homingToManual())
         self.menuButton.setMinimumSize(QSize(80, 50))
         self.menuButton.setMaximumSize(QSize(80, 50))
         self.menuButton.setFont(font1)
@@ -125,118 +123,85 @@ class Ui_MainWindow(QMainWindow):
         self.axisFunctionsGroup.setObjectName(u"axisFunctionsGroup")
         self.axisFunctionsGroup.setMinimumSize(QSize(500, 490))
         self.axisFunctionsGroup.setMaximumSize(QSize(500, 490))
-        
         self.axis1Group = QGroupBox(self.axisFunctionsGroup)
         self.axis1Group.setObjectName(u"axis1Group")
         self.axis1Group.setEnabled(False)
         self.axis1Group.setGeometry(QRect(10, 20, 231, 131))
-        
         self.incrementAxis1 = QPushButton(self.axis1Group)
         self.incrementAxis1.setObjectName(u"incrementAxis1")
-        self.incrementAxis1.pressed.connect(lambda: grab.startExtendSnake())
-        self.incrementAxis1.released.connect(lambda: grab.stopExtendSnake())
         self.incrementAxis1.setGeometry(QRect(20, 30, 91, 41))
         font2 = QFont()
         font2.setPointSize(16)
         self.incrementAxis1.setFont(font2)
-        
         self.decrementAxis1 = QPushButton(self.axis1Group)
         self.decrementAxis1.setObjectName(u"decrementAxis1")
-        self.decrementAxis1.pressed.connect(lambda: grab.startRetractSnake())
-        self.decrementAxis1.released.connect(lambda: grab.stopRetractSnake())
         self.decrementAxis1.setGeometry(QRect(20, 80, 91, 41))
         self.decrementAxis1.setFont(font2)
-        
         self.zeroAxis1 = QPushButton(self.axis1Group)
         self.zeroAxis1.setObjectName(u"zeroAxis1")
         self.zeroAxis1.setGeometry(QRect(120, 80, 91, 41))
         self.zeroAxis1.setFont(font)
-        
         self.axis2Group = QGroupBox(self.axisFunctionsGroup)
         self.axis2Group.setObjectName(u"axis2Group")
         self.axis2Group.setEnabled(False)
         self.axis2Group.setGeometry(QRect(10, 170, 231, 131))
-        
         self.incrementAxis2 = QPushButton(self.axis2Group)
         self.incrementAxis2.setObjectName(u"incrementAxis2")
-        self.incrementAxis2.pressed.connect(lambda: grab.moveRotationClockwise())
-        self.incrementAxis2.released.connect(lambda: grab.stopRotationClockwise())
         self.incrementAxis2.setGeometry(QRect(20, 30, 91, 41))
         self.incrementAxis2.setFont(font2)
-        
         self.decrementAxis2 = QPushButton(self.axis2Group)
         self.decrementAxis2.setObjectName(u"decrementAxis2")
-        self.decrementAxis2.pressed.connect(lambda: grab.moveRotationCounterClockwise())
-        self.decrementAxis2.released.connect(lambda: grab.stopRotationCounterClockwise())
         self.decrementAxis2.setGeometry(QRect(20, 80, 91, 41))
         self.decrementAxis2.setFont(font2)
-        
         self.zeroAxis2 = QPushButton(self.axis2Group)
         self.zeroAxis2.setObjectName(u"zeroAxis2")
         self.zeroAxis2.setGeometry(QRect(120, 80, 91, 41))
         self.zeroAxis2.setFont(font)
-        
         self.axis3Group = QGroupBox(self.axisFunctionsGroup)
         self.axis3Group.setObjectName(u"axis3Group")
         self.axis3Group.setEnabled(False)
         self.axis3Group.setGeometry(QRect(10, 320, 231, 131))
-        
         self.incrementAxis3 = QPushButton(self.axis3Group)
         self.incrementAxis3.setObjectName(u"incrementAxis3")
-        self.incrementAxis3.pressed.connect(lambda: grab.ascendVerticalAxis())
-        self.incrementAxis3.released.connect(lambda: grab.stopVertical())
         self.incrementAxis3.setGeometry(QRect(20, 30, 91, 41))
         self.incrementAxis3.setFont(font2)
-        
         self.decrementAxis3 = QPushButton(self.axis3Group)
         self.decrementAxis3.setObjectName(u"decrementAxis3")
-        self.decrementAxis3.pressed.connect(lambda: grab.descendVerticalAxis())
-        self.decrementAxis3.released.connect(lambda: grab.stopVertical())
         self.decrementAxis3.setGeometry(QRect(20, 80, 91, 41))
         self.decrementAxis3.setFont(font2)
-        
         self.zeroAxis3 = QPushButton(self.axis3Group)
         self.zeroAxis3.setObjectName(u"zeroAxis3")
         self.zeroAxis3.setGeometry(QRect(120, 80, 91, 41))
         self.zeroAxis3.setFont(font)
-        
         self.axis4Group = QGroupBox(self.axisFunctionsGroup)
         self.axis4Group.setObjectName(u"axis4Group")
         self.axis4Group.setEnabled(False)
         self.axis4Group.setGeometry(QRect(250, 20, 231, 131))
-        
         self.incrementAxis4 = QPushButton(self.axis4Group)
         self.incrementAxis4.setObjectName(u"incrementAxis4")
         self.incrementAxis4.setGeometry(QRect(20, 30, 91, 41))
         self.incrementAxis4.setFont(font2)
-        
         self.decrementAxis4 = QPushButton(self.axis4Group)
         self.decrementAxis4.setObjectName(u"decrementAxis4")
         self.decrementAxis4.setGeometry(QRect(20, 80, 91, 41))
         self.decrementAxis4.setFont(font2)
-        
         self.zeroAxis4 = QPushButton(self.axis4Group)
         self.zeroAxis4.setObjectName(u"zeroAxis4")
         self.zeroAxis4.setGeometry(QRect(120, 80, 91, 41))
         self.zeroAxis4.setFont(font)
-        
         self.axisEnableGroup = QGroupBox(self.axisFunctionsGroup)
         self.axisEnableGroup.setObjectName(u"axisEnableGroup")
         self.axisEnableGroup.setGeometry(QRect(250, 170, 231, 281))
-        
         self.horizontalAxisEnableCheckBox = QCheckBox(self.axisEnableGroup)
         self.horizontalAxisEnableCheckBox.setObjectName(u"horizontalAxisEnableCheckBox")
         self.horizontalAxisEnableCheckBox.setGeometry(QRect(20, 30, 191, 41))
-        
         self.rotationalAxisEnableCheckBox = QCheckBox(self.axisEnableGroup)
         self.rotationalAxisEnableCheckBox.setObjectName(u"rotationalAxisEnableCheckBox")
         self.rotationalAxisEnableCheckBox.setGeometry(QRect(20, 80, 191, 41))
-        
         self.snakeAxisCheckBox = QCheckBox(self.axisEnableGroup)
         self.snakeAxisCheckBox.setObjectName(u"snakeAxisCheckBox")
         self.snakeAxisCheckBox.setEnabled(False)
         self.snakeAxisCheckBox.setGeometry(QRect(20, 180, 191, 41))
-        
         self.verticalAxisEnableCheckBox = QCheckBox(self.axisEnableGroup)
         self.verticalAxisEnableCheckBox.setObjectName(u"verticalAxisEnableCheckBox")
         self.verticalAxisEnableCheckBox.setGeometry(QRect(20, 130, 191, 41))
@@ -251,11 +216,9 @@ class Ui_MainWindow(QMainWindow):
         self.verticalGroupBox.setMinimumSize(QSize(200, 393))
         self.verticalGroupBox.setMaximumSize(QSize(200, 16777215))
         self.verticalGroupBox.setFlat(False)
-        
         self.verticalLayout = QVBoxLayout(self.verticalGroupBox)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setSizeConstraint(QLayout.SetMinAndMaxSize)
-        
         self.statusGroup = QGroupBox(self.verticalGroupBox)
         self.statusGroup.setObjectName(u"statusGroup")
         sizePolicy1 = QSizePolicy(QSizePolicy.Maximum, QSizePolicy.Maximum)
@@ -270,41 +233,47 @@ class Ui_MainWindow(QMainWindow):
         self.statusLayout = QVBoxLayout(self.verticalLayoutWidget_3)
         self.statusLayout.setObjectName(u"statusLayout")
         self.statusLayout.setContentsMargins(0, 0, 0, 0)
-        self.powerOn = QRadioButton(self.verticalLayoutWidget_3)
-        self.powerOn.setObjectName(u"powerOn")
-        self.powerOn.setFont(font)
+        self.powerOnRadioButton = QRadioButton(self.verticalLayoutWidget_3)
+        self.powerOnRadioButton.setObjectName(u"powerOnRadioButton")
+        self.powerOnRadioButton.setFont(font)
 
-        self.statusLayout.addWidget(self.powerOn)
+        self.statusLayout.addWidget(self.powerOnRadioButton)
 
-        self.enabled = QRadioButton(self.verticalLayoutWidget_3)
-        self.enabled.setObjectName(u"enabled")
-        self.enabled.setFont(font)
+        self.connectedRadioButton = QRadioButton(self.verticalLayoutWidget_3)
+        self.connectedRadioButton.setObjectName(u"connectedRadioButton")
+        self.connectedRadioButton.setFont(font)
 
-        self.statusLayout.addWidget(self.enabled)
+        self.statusLayout.addWidget(self.connectedRadioButton)
 
-        self.readyForOperation = QRadioButton(self.verticalLayoutWidget_3)
-        self.readyForOperation.setObjectName(u"readyForOperation")
-        self.readyForOperation.setFont(font)
+        self.enabledRadioButton = QRadioButton(self.verticalLayoutWidget_3)
+        self.enabledRadioButton.setObjectName(u"enabledRadioButton")
+        self.enabledRadioButton.setFont(font)
 
-        self.statusLayout.addWidget(self.readyForOperation)
+        self.statusLayout.addWidget(self.enabledRadioButton)
 
-        self.moving = QRadioButton(self.verticalLayoutWidget_3)
-        self.moving.setObjectName(u"moving")
-        self.moving.setFont(font)
+        self.readyForOperationRadioButton = QRadioButton(self.verticalLayoutWidget_3)
+        self.readyForOperationRadioButton.setObjectName(u"readyForOperationRadioButton")
+        self.readyForOperationRadioButton.setFont(font)
 
-        self.statusLayout.addWidget(self.moving)
+        self.statusLayout.addWidget(self.readyForOperationRadioButton)
 
-        self.stopped = QRadioButton(self.verticalLayoutWidget_3)
-        self.stopped.setObjectName(u"stopped")
-        self.stopped.setFont(font)
+        self.movingRadioButton = QRadioButton(self.verticalLayoutWidget_3)
+        self.movingRadioButton.setObjectName(u"movingRadioButton")
+        self.movingRadioButton.setFont(font)
 
-        self.statusLayout.addWidget(self.stopped)
+        self.statusLayout.addWidget(self.movingRadioButton)
 
-        self.error = QRadioButton(self.verticalLayoutWidget_3)
-        self.error.setObjectName(u"error")
-        self.error.setFont(font)
+        self.stoppedRadioButton = QRadioButton(self.verticalLayoutWidget_3)
+        self.stoppedRadioButton.setObjectName(u"stoppedRadioButton")
+        self.stoppedRadioButton.setFont(font)
 
-        self.statusLayout.addWidget(self.error)
+        self.statusLayout.addWidget(self.stoppedRadioButton)
+
+        self.errorRadioButton = QRadioButton(self.verticalLayoutWidget_3)
+        self.errorRadioButton.setObjectName(u"errorRadioButton")
+        self.errorRadioButton.setFont(font)
+
+        self.statusLayout.addWidget(self.errorRadioButton)
 
 
         self.verticalLayout.addWidget(self.statusGroup)
@@ -313,64 +282,36 @@ class Ui_MainWindow(QMainWindow):
         self.mainHorizontalLayout.addWidget(self.verticalGroupBox)
 
         MainWindow.setCentralWidget(self.centralwidget)
-        self.statusbar = QStatusBar(MainWindow)
-        self.statusbar.setObjectName(u"statusbar")
-        MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
-        self.horizontalAxisEnableCheckBox.toggled.connect(self.toggleHorizontalAxis)
-        self.rotationalAxisEnableCheckBox.toggled.connect(self.toggleRotationalAxis)
-        self.verticalAxisEnableCheckBox.toggled.connect(self.toggleVerticalAxis)
+        self.horizontalAxisEnableCheckBox.toggled.connect(self.axis1Group.setEnabled)
+        self.rotationalAxisEnableCheckBox.toggled.connect(self.axis2Group.setEnabled)
+        self.verticalAxisEnableCheckBox.toggled.connect(self.axis3Group.setEnabled)
         self.snakeAxisCheckBox.toggled.connect(self.axis4Group.setEnabled)
-        self.disableButton.clicked.connect(self.disableAllAxis)
+        self.disableButton.clicked.connect(self.horizontalAxisEnableCheckBox.setChecked)
+        self.disableButton.clicked.connect(self.rotationalAxisEnableCheckBox.setChecked)
+        self.disableButton.clicked.connect(self.verticalAxisEnableCheckBox.setChecked)
+        self.disableButton.clicked.connect(self.snakeAxisCheckBox.setChecked)
+        self.stopButton.clicked.connect(self.stoppedRadioButton.toggle)
 
         self.zeroButton.setDefault(False)
         self.stopButton.setDefault(False)
         self.resetButton.setDefault(False)
         self.disableButton.setDefault(False)
         self.menuButton.setDefault(False)
-        
+
+
         QMetaObject.connectSlotsByName(MainWindow)
     # setupUi
-    
-    def disableAllAxis(self):
-        self.horizontalAxisEnableCheckBox.setChecked(False)
-        self.rotationalAxisEnableCheckBox.setChecked(False)
-        self.verticalAxisEnableCheckBox.setChecked(False)
-        self.snakeAxisCheckBox.setChecked(False)
-    
-    def toggleHorizontalAxis(self):
-        if not self.axis1Group.isEnabled():
-            self.axis1Group.setEnabled(True)
-            grab.enableHorizontalAxis()
-        else:
-            self.axis1Group.setEnabled(False)
-            grab.disableHorizontalAxis()
-    
-    def toggleRotationalAxis(self):
-        if not self.axis2Group.isEnabled():
-            self.axis2Group.setEnabled(True)
-            grab.enableRotationalAxis()
-        else:
-            self.axis2Group.setEnabled(False)
-            grab.disableRotationalAxis()
-            
-    def toggleVerticalAxis(self):
-        if not self.axis3Group.isEnabled():
-            self.axis3Group.setEnabled(True)
-            grab.enableVerticalAxis()
-        else:
-            self.axis3Group.setEnabled(False)
-            grab.disableVerticalAxis()
-    
+
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Grab2.0", None))
         self.mainFunctionGroup.setTitle(QCoreApplication.translate("MainWindow", u"Main Functions", None))
-        self.zeroButton.setText(QCoreApplication.translate("MainWindow", u"Open", None))
+        self.zeroButton.setText(QCoreApplication.translate("MainWindow", u"Zero", None))
         self.stopButton.setText(QCoreApplication.translate("MainWindow", u"Stop", None))
         self.resetButton.setText(QCoreApplication.translate("MainWindow", u"Reset", None))
         self.disableButton.setText(QCoreApplication.translate("MainWindow", u"Disable", None))
-        self.menuButton.setText(QCoreApplication.translate("MainWindow", u"Homing", None))
+        self.menuButton.setText(QCoreApplication.translate("MainWindow", u"Menu", None))
         self.axisFunctionsGroup.setTitle(QCoreApplication.translate("MainWindow", u"Axis Functions", None))
         self.axis1Group.setTitle(QCoreApplication.translate("MainWindow", u"Axis 1", None))
         self.incrementAxis1.setText(QCoreApplication.translate("MainWindow", u"+", None))
@@ -394,36 +335,21 @@ class Ui_MainWindow(QMainWindow):
         self.snakeAxisCheckBox.setText(QCoreApplication.translate("MainWindow", u"Snake Axis", None))
         self.verticalAxisEnableCheckBox.setText(QCoreApplication.translate("MainWindow", u"Vertical Axis", None))
         self.statusGroup.setTitle(QCoreApplication.translate("MainWindow", u"Status", None))
-        self.powerOn.setText(QCoreApplication.translate("MainWindow", u"Power On", None))
-        self.enabled.setText(QCoreApplication.translate("MainWindow", u"Enabled", None))
-        self.readyForOperation.setText(QCoreApplication.translate("MainWindow", u"Ready for operation", None))
-        self.moving.setText(QCoreApplication.translate("MainWindow", u"Moving", None))
-        self.stopped.setText(QCoreApplication.translate("MainWindow", u"Stopped", None))
-        self.error.setText(QCoreApplication.translate("MainWindow", u"Error", None))
+        self.powerOnRadioButton.setText(QCoreApplication.translate("MainWindow", u"Power On", None))
+        self.connectedRadioButton.setText(QCoreApplication.translate("MainWindow", u"Connected", None))
+        self.enabledRadioButton.setText(QCoreApplication.translate("MainWindow", u"Enabled", None))
+        self.readyForOperationRadioButton.setText(QCoreApplication.translate("MainWindow", u"Ready for operation", None))
+        self.movingRadioButton.setText(QCoreApplication.translate("MainWindow", u"Moving", None))
+        self.stoppedRadioButton.setText(QCoreApplication.translate("MainWindow", u"Stopped", None))
+        self.errorRadioButton.setText(QCoreApplication.translate("MainWindow", u"Error", None))
     # retranslateUi
-    
 
 if __name__ == "__main__":
-    import sys, os, qdarkstyle, time
+    import sys, os, qdarkstyle
     sys.path.append(os.path.abspath("python/ADS"))
-    from main import GRAB
-    grab = GRAB()
     app = QApplication(sys.argv)
     MainWindow = QMainWindow()
-    ui = Ui_MainWindow()
+    ui = manualModeWindow()
     ui.setupUi(MainWindow)
-    style = qdarkstyle.load_stylesheet()
-    app.setStyleSheet(style)
     MainWindow.show()
-    app.exec_()
-    # sys.exit(app.exec_())
-    grab.stopAllAxis()
-    time.sleep(0.2)
-    grab.disableAllAxis()
-    time.sleep(0.2)
-    grab.close()
-    
-    
-    
-    # Connect CONNECTION  to a radio button
-    # Disable everything when homing is active
+    sys.exit(app.exec_())
