@@ -18,7 +18,8 @@ class GRAB(object):
     def getSymbols(self) -> None:
         ################################################################
         # Global Variable List
-        self.grabState          = self.plc.get_symbol('GVL.grabState')
+        self.grabState          :int    = self.plc.get_symbol('GVL.stateGRAB')
+        self.homingDone         :bool   = self.plc.get_symbol('GVL.homingDone')
         
         ################################################################
         # Horizontal Axis 
@@ -63,8 +64,9 @@ class GRAB(object):
         try:
             self.plc.open()
             self.CONNECTION = True
+            sleep(0.2)
             logging.info('Started')
-            self.plc.getSymbols()
+            self.getSymbols()
         except Exception:
             logging.exception('Shit Broke bro')
     
@@ -73,7 +75,8 @@ class GRAB(object):
     
     def close(self) -> None:
         if self.CONNECTION:
-            self.plc.stop()
+            self.grabState.write(0)
+            self.plc.close()
             self.CONNECTION = False
         logging.info('Stopped')
     
@@ -105,6 +108,29 @@ class GRAB(object):
         self.readRotationalAxis()
         self.readVerticalAxis()
     
+    def resetAllErrors(self):
+        if self.CONNECTION:
+            self.vResetError.write(True)
+            self.rResetError.write(True)
+            self.hResetError.write(True)
+            
+    def homingToManual(self):
+        if self.CONNECTION:
+            self.grabState.write(1)
+            logging.info("ALL Axis:\t HOMING....")
+            sleep(0.2)
+            print(self.homingDone.read())
+            while(not self.homingDone.read()):
+                print(self.homingDone.read())
+                sleep(0.5)
+            self.homingDone.write(False)
+            logging.info("ALL Axis:\t HOMING DONE")
+            sleep(0.2)
+            self.grabState.write(2)
+        else:
+            logging.info("ALL Axis:\t HOMING")
+            logging.info("ALL Axis:\t HOMING DONE")
+        
     ######################################################################
     # Resetting different axis
     def resetHorizontalAxis(self) -> None:
@@ -163,7 +189,7 @@ class GRAB(object):
     def disableAllAxis(self) -> None:
         if self.CONNECTION: 
             self.disableHorizontalAxis()
-            self.disableRotationAxis()
+            self.disableRotationalAxis()
             self.disableVerticalAxis()
         logging.info('All Axis \t|\t  DISABLED')
     ######################################################################
@@ -233,8 +259,8 @@ class GRAB(object):
         if self.CONNECTION: self.stopVertical();self.stopRotation();self.stopHorizontal()
         logging.info("All Axis |\t STOPPED")
     
-    def disableAllAxis(self) -> None:
-        if self.CONNECTION: self.disableVerticalAxis();self.disableRotation
+    # def disableAllAxis(self) -> None:
+        # if self.CONNECTION: self.disableVerticalAxis();self.disableRotation
         
         
     ######################################################################

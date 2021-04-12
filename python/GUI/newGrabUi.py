@@ -12,7 +12,7 @@ from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
 
-class Ui_MainWindow(object):
+class Ui_MainWindow(QMainWindow):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
@@ -58,6 +58,7 @@ class Ui_MainWindow(object):
         
         self.zeroButton = QPushButton(self.horizontalLayoutWidget_2)
         self.zeroButton.setObjectName(u"zeroButton")
+        self.zeroButton.clicked.connect(lambda: grab.open())
         self.zeroButton.setMinimumSize(QSize(80, 50))
         self.zeroButton.setMaximumSize(QSize(80, 50))
         font = QFont()
@@ -81,6 +82,7 @@ class Ui_MainWindow(object):
 
         self.resetButton = QPushButton(self.horizontalLayoutWidget_2)
         self.resetButton.setObjectName(u"resetButton")
+        self.resetButton.clicked.connect(lambda: grab.close())
         self.resetButton.setMinimumSize(QSize(80, 50))
         self.resetButton.setMaximumSize(QSize(80, 50))
         self.resetButton.setFont(font)
@@ -107,6 +109,7 @@ class Ui_MainWindow(object):
 
         self.menuButton = QPushButton(self.horizontalLayoutWidget_2)
         self.menuButton.setObjectName(u"menuButton")
+        self.menuButton.clicked.connect(lambda: grab.homingToManual())
         self.menuButton.setMinimumSize(QSize(80, 50))
         self.menuButton.setMaximumSize(QSize(80, 50))
         self.menuButton.setFont(font1)
@@ -326,8 +329,7 @@ class Ui_MainWindow(object):
         self.resetButton.setDefault(False)
         self.disableButton.setDefault(False)
         self.menuButton.setDefault(False)
-
-
+        
         QMetaObject.connectSlotsByName(MainWindow)
     # setupUi
     
@@ -364,11 +366,11 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Grab2.0", None))
         self.mainFunctionGroup.setTitle(QCoreApplication.translate("MainWindow", u"Main Functions", None))
-        self.zeroButton.setText(QCoreApplication.translate("MainWindow", u"Zero", None))
+        self.zeroButton.setText(QCoreApplication.translate("MainWindow", u"Open", None))
         self.stopButton.setText(QCoreApplication.translate("MainWindow", u"Stop", None))
         self.resetButton.setText(QCoreApplication.translate("MainWindow", u"Reset", None))
         self.disableButton.setText(QCoreApplication.translate("MainWindow", u"Disable", None))
-        self.menuButton.setText(QCoreApplication.translate("MainWindow", u"Menu", None))
+        self.menuButton.setText(QCoreApplication.translate("MainWindow", u"Homing", None))
         self.axisFunctionsGroup.setTitle(QCoreApplication.translate("MainWindow", u"Axis Functions", None))
         self.axis1Group.setTitle(QCoreApplication.translate("MainWindow", u"Axis 1", None))
         self.incrementAxis1.setText(QCoreApplication.translate("MainWindow", u"+", None))
@@ -399,18 +401,29 @@ class Ui_MainWindow(object):
         self.stopped.setText(QCoreApplication.translate("MainWindow", u"Stopped", None))
         self.error.setText(QCoreApplication.translate("MainWindow", u"Error", None))
     # retranslateUi
+    
 
 if __name__ == "__main__":
-    import sys, os, qdarkstyle
+    import sys, os, qdarkstyle, time
     sys.path.append(os.path.abspath("python/ADS/testing"))
     from main import GRAB
     grab = GRAB()
-    
     app = QApplication(sys.argv)
     MainWindow = QMainWindow()
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
-    style = qdarkstyle.load_stylesheet_pyqt5()
+    style = qdarkstyle.load_stylesheet()
     app.setStyleSheet(style)
     MainWindow.show()
-    sys.exit(app.exec_())
+    app.exec_()
+    # sys.exit(app.exec_())
+    grab.stopAllAxis()
+    time.sleep(0.2)
+    grab.disableAllAxis()
+    time.sleep(0.2)
+    grab.close()
+    
+    
+    
+    # Connect CONNECTION  to a radio button
+    # Disable everything when homing is active
