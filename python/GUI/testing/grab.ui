@@ -28,6 +28,11 @@
   <property name="autoFillBackground">
    <bool>false</bool>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(81, 39, 77);
+color: rgb(252, 124, 44);
+border-color: rgb(0, 0, 0);</string>
+  </property>
   <property name="documentMode">
    <bool>false</bool>
   </property>
@@ -694,7 +699,7 @@
            </property>
            <layout class="QVBoxLayout" name="statusLayout">
             <item>
-             <widget class="QRadioButton" name="powerOn">
+             <widget class="QRadioButton" name="powerOnRadioButton">
               <property name="font">
                <font>
                 <pointsize>10</pointsize>
@@ -706,7 +711,19 @@
              </widget>
             </item>
             <item>
-             <widget class="QRadioButton" name="enabled">
+             <widget class="QRadioButton" name="connectedRadioButton">
+              <property name="font">
+               <font>
+                <pointsize>10</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Connected</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="enabledRadioButton">
               <property name="font">
                <font>
                 <pointsize>10</pointsize>
@@ -718,7 +735,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QRadioButton" name="readyForOperation">
+             <widget class="QRadioButton" name="readyForOperationRadioButton">
               <property name="font">
                <font>
                 <pointsize>10</pointsize>
@@ -730,7 +747,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QRadioButton" name="moving">
+             <widget class="QRadioButton" name="movingRadioButton">
               <property name="font">
                <font>
                 <pointsize>10</pointsize>
@@ -742,7 +759,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QRadioButton" name="stopped">
+             <widget class="QRadioButton" name="stoppedRadioButton">
               <property name="font">
                <font>
                 <pointsize>10</pointsize>
@@ -754,7 +771,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QRadioButton" name="error">
+             <widget class="QRadioButton" name="errorRadioButton">
               <property name="font">
                <font>
                 <pointsize>10</pointsize>
@@ -775,11 +792,8 @@
     </layout>
    </widget>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources>
-  <include location="../../../../../../../Downloads/QDarkStyleSheet-master/QDarkStyleSheet-master/qdarkstyle/style.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>horizontalAxisEnableCheckBox</sender>
@@ -906,6 +920,22 @@
     <hint type="destinationlabel">
      <x>377</x>
      <y>488</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>stopButton</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>stoppedRadioButton</receiver>
+   <slot>toggle()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>183</x>
+     <y>62</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>700</x>
+     <y>218</y>
     </hint>
    </hints>
   </connection>
