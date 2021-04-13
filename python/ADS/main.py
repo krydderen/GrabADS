@@ -109,7 +109,7 @@ class GRAB(object):
         logging.info('Current State: \t  MANUALMODE')
     
     def positionMode(self) -> None:
-        if self.connection: self.grabState.write(3)
+        if self.CONNECTION: self.grabState.write(3)
         logging.info('Currentstate: \t  POSITIONMODE')
     
     ######################################################################
@@ -222,6 +222,13 @@ class GRAB(object):
         if self.CONNECTION: self.vEnable.write(False)
         logging.info("Vertical Axis \t|\t DISABLED")
     
+    def enableAllAxis(self) -> None:
+        if self.CONNECTION: 
+            self.enableHorizontalAxis()
+            self.enableRotationalAxis()
+            self.enableVerticalAxis()
+        logging.info('All Axis \t|\t  ENABLED')
+    
     def disableAllAxis(self) -> None:
         if self.CONNECTION: 
             self.disableHorizontalAxis()
@@ -298,17 +305,98 @@ class GRAB(object):
     # def disableAllAxis(self) -> None:
         # if self.CONNECTION: self.disableVerticalAxis();self.disableRotation
         
+    
+    
+    ######################################################################
+    # Position mode, change this to take in args to decide manual or standby.
+    
+    def zeroManualHorizontal(self):
+        self.positionMode()
+        sleep(self.CMDDELAY)
+        self.hTargetPosition.write(0)
+        sleep(self.CMDDELAY)
+        self.hEnableMove.write(True)
+        sleep(self.CMDDELAY)
+        self.hEnableMove.write(False)
+        while(self.hBusy.read()):
+            logging.info('Moving Horizontal to zero...')
+            sleep(0.5)
+        logging.info('Moving done...')
+        self.manualMode()
+    
+    def zeroManualRotational(self):
+        self.positionMode()
+        sleep(self.CMDDELAY)
+        self.rTargetPosition.write(0)
+        sleep(self.CMDDELAY)
+        self.rEnableMove.write(True)
+        sleep(self.CMDDELAY)
+        self.rEnableMove.write(False)
+        while(self.rBusy.read()):
+            logging.info('Moving Horizontal to zero...')
+            sleep(0.5)
+        logging.info('Moving done...')
+        self.manualMode()
+    
+    def zeroManualVertical(self):
+        self.positionMode()
+        sleep(self.CMDDELAY)
+        self.vTargetPosition.write(0)
+        sleep(self.CMDDELAY)
+        self.vEnableMove.write(True)
+        sleep(self.CMDDELAY)
+        self.vEnableMove.write(False)
+        while(self.vBusy.read()):
+            logging.info('Moving Horizontal to zero...')
+            sleep(0.5)
+        logging.info('Moving done...')
+        self.manualMode()
+        
         
     ######################################################################
     # Testing functions
     def pickBox(self) -> None:
         self.positionMode()
-        sleep(CMDDELAY)
+        sleep(self.CMDDELAY)
         self.enableAllAxis()
-        sleep(3)
+        sleep(1)
+        
+        self.vTargetPosition.write(730)
+        sleep(self.CMDDELAY)
+        self.vEnableMove.write(True)
+        sleep(self.CMDDELAY)
+        self.vEnableMove.write(False)
+        sleep(self.CMDDELAY)
+        while (self.vBusy.read()):
+            logging.info('Moving Vertcial to Position...')
+            sleep(0.5)
+        logging.info('Moving done.')
+        
+        
+        self.rTargetPosition.write(79)
+        sleep(self.CMDDELAY)
+        self.rEnableMove.write(True)
+        sleep(self.CMDDELAY)
+        self.rEnableMove.write(False)
+        sleep(self.CMDDELAY)
+        while (self.rBusy.read()):
+            logging.info('Moving Rotation to Position...')
+            sleep(0.5)
+        logging.info('Moving done.')
+        
+        self.hTargetPosition.write(550)
+        sleep(self.CMDDELAY)
+        self.hEnableMove.write(True)
+        sleep(self.CMDDELAY)
+        self.hEnableMove.write(False)
+        sleep(self.CMDDELAY)
+        while (self.hBusy.read()):
+            logging.info('Moving Horizontal to Position...')
+            sleep(0.5)
+        logging.info('Moving done.')
         
         self.disableAllAxis()
-        sleep(CMDDELAY)
+        sleep(self.CMDDELAY)
         self.standbyMode()
         
         
