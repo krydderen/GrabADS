@@ -108,6 +108,7 @@ class Ui_MainWindow(object):
 
         self.pickBoxButton = QPushButton(self.centralwidget)
         self.pickBoxButton.setObjectName(u"pickBoxButton")
+        self.pickBoxButton.clicked.connect(lambda : grab.pickBox())
         self.pickBoxButton.setMinimumSize(QSize(185, 60))
         self.pickBoxButton.setMaximumSize(QSize(185, 16777215))
         self.pickBoxButton.setFont(font1)
@@ -164,7 +165,6 @@ class Ui_MainWindow(object):
         self.openButton.setEnabled(False)
         self.homingButton.setEnabled(False)
         self.manualButton.setEnabled(False)
-        time.sleep(1)
         grab.startHoming()
         self.homingButton.setStyleSheet("QPushButton{background-color: #58D68D;}")
         self.openButton.setEnabled(True)
@@ -242,7 +242,7 @@ class manualModeWindow(object):
 
         self.resetButton = QPushButton(self.horizontalLayoutWidget_2)
         self.resetButton.setObjectName(u"resetButton")
-        self.resetButton.clicked.connect(lambda: grab.close())
+        self.resetButton.clicked.connect(lambda: grab.resetAllAxis())
         self.resetButton.setMinimumSize(QSize(80, 50))
         self.resetButton.setMaximumSize(QSize(80, 50))
         self.resetButton.setFont(font)

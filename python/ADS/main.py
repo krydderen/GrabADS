@@ -7,7 +7,7 @@ class GRAB(object):
     PORT        :int    = pyads.PORT_TC3PLC1
     WAITTIME    :float  = 0.5
     DRIVETIME   :float  = 1
-    CMDDELAY    :float  = 0.2
+    CMDDELAY    :float  = 0.5
     CONNECTION  :bool   = False
     STANDBY     :int    = 0
     HOMINGMODE  :int    = 1
@@ -36,6 +36,7 @@ class GRAB(object):
         self.hRunning           :bool   = self.plc.get_symbol('HAVL.running')
         self.hDone              :bool   = self.plc.get_symbol('HAVL.done')
         
+        self.hEnableMove        :bool   = self.plc.get_symbol('HAVL.enableMove')
         self.hTargetPosition    :float  = self.plc.get_symbol('HAVL.targetPosition')
         self.hActualPosition    :float  = self.plc.get_symbol('HAVL.actualPosition')
         self.hActialPositionInt :float  = self.plc.get_symbol('HAVL.actualPositionInt')
@@ -52,6 +53,7 @@ class GRAB(object):
         self.rRunning           :bool   = self.plc.get_symbol('RAVL.running')
         self.rDone              :bool   = self.plc.get_symbol('RAVL.done')
         
+        self.rEnableMove        :bool   = self.plc.get_symbol('RAVL.enableMove')
         self.rTargetPosition    :float  = self.plc.get_symbol('RAVL.targetPosition')
         self.rActualPosition    :float  = self.plc.get_symbol('RAVL.actualPosition')
         self.rActialPositionInt :float  = self.plc.get_symbol('RAVL.actualPositionInt')
@@ -62,6 +64,15 @@ class GRAB(object):
         self.vAscend            :bool   = self.plc.get_symbol('VAVL.ascend')
         self.vDescend           :bool   = self.plc.get_symbol('VAVL.descend')
         self.vResetError        :bool   = self.plc.get_symbol('VAVL.resetError')
+        
+        self.vBusy              :bool   = self.plc.get_symbol('VAVL.busy')
+        self.vRunning           :bool   = self.plc.get_symbol('VAVL.running')
+        self.vDone              :bool   = self.plc.get_symbol('VAVL.done')
+        
+        self.vEnableMove        :bool   = self.plc.get_symbol('VAVL.enableMove')
+        self.vTargetPosition    :float  = self.plc.get_symbol('VAVL.targetPosition')
+        self.vActualPosition    :float  = self.plc.get_symbol('VAVL.actualPosition')
+        self.vActialPositionInt :float  = self.plc.get_symbol('VAVL.actualPositionInt')
         
     def open(self) -> None:
         try:
@@ -78,7 +89,7 @@ class GRAB(object):
     
     def close(self) -> None:
         if self.CONNECTION:
-            self.grabState.write(STANDBY)
+            self.grabState.write(0)
             self.plc.close()
             self.CONNECTION = False
         logging.info('Stopped')
@@ -86,16 +97,20 @@ class GRAB(object):
     ######################################################################
     # Global Variable changes
     def standbyMode(self) -> None:
-        if self.CONNECTION: grabState.write(STANDBY)
+        if self.CONNECTION: self.grabState.write(0)
         logging.info('Current State: \t  STANDBY')
         
     def homingMode(self) -> None:
-        if self.CONNECTION: grabState.write(HOMINGMODE)
+        if self.CONNECTION: self.grabState.write(1)
         logging.info('Current State: \t  HOMINGMODE')
         
     def manualMode(self) -> None:
-        if self.CONNECTION: grabState.write(MANUALMODE)
+        if self.CONNECTION: self.grabState.write(2)
         logging.info('Current State: \t  MANUALMODE')
+    
+    def positionMode(self) -> None:
+        if self.connection: self.grabState.write(3)
+        logging.info('Currentstate: \t  POSITIONMODE')
     
     ######################################################################
     # Reading the different axis
@@ -158,28 +173,29 @@ class GRAB(object):
             self.hResetError.write(True)
             sleep(self.CMDDELAY)
             self.hResetError.write(False)
-        logging.info("Horizontal Axis:\t RESET")
+        logging.debug("Horizontal Axis:\t RESET")
         
     def resetRotationalAxis(self) -> None:
         if self.CONNECTION:
             self.rResetError.write(True)
             sleep(self.CMDDELAY)
             self.rResetError.write(False)
-        logging.info("Rotation Axis:\t RESET")
+        logging.debug("Rotation Axis:\t RESET")
     
     def resetVerticalAxis(self) -> None:
         if self.CONNECTION:
             self.vResetError.write(True)
             sleep(self.CMDDELAY)
             self.vResetError.write(False)
-        logging.info("Vertical Axis:\t RESET")
+        logging.debug("Vertical Axis: \t RESET")
     
     def resetAllAxis(self) -> None:
         logging.info("ALL AXIS:\t RESETTING...")
         if self.CONNECTION:
             self.resetHorizontalAxis()
-            self.readRotationalAxis()
+            self.resetRotationalAxis()
             self.resetVerticalAxis()
+        logging.info("ALL AXIS:\t RESET")
     ######################################################################
     # Enable or disable
     def enableHorizontalAxis(self):
@@ -285,32 +301,14 @@ class GRAB(object):
         
     ######################################################################
     # Testing functions
-    def runTest(self) -> None:
-        self.start()
-        self.getSymbols()
-        self.readHorizontalAxis()
-        self.readRotationalAxis()
-        self.resetHorizontalAxis()
-        self.resetRotationalAxis()
-        self.enableHorizontalAxis()
-        self.enableRotationalAxis()
-        self.startExtendSnake()
-        sleep(1)
-        self.stopExtendSnake()
-        sleep(0.5)
-        self.startRetractSnake()
-        sleep(1)
-        self.stopRetractSnake()
-        sleep(0.5)
-        self.moveRotationCounterClockwise()
-        sleep(1)
-        self.stopRotationCounterClockwise()
-        sleep(0.5)
-        self.moveRotationClockwise()
-        sleep(1)
-        self.stopRotationClockwise()
-        sleep(0.5)
-        self.disableHorizontalAxis()
-        self.disableRotationalAxis()
-        self.stop()
+    def pickBox(self) -> None:
+        self.positionMode()
+        sleep(CMDDELAY)
+        self.enableAllAxis()
+        sleep(3)
+        
+        self.disableAllAxis()
+        sleep(CMDDELAY)
+        self.standbyMode()
+        
         
