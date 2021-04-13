@@ -70,7 +70,7 @@ class Ui_MainWindow(object):
 
         self.homingButton = QPushButton(self.centralwidget)
         self.homingButton.setObjectName(u"homingButton")
-        self.homingButton.clicked.connect(lambda: grab.startHoming())
+        self.homingButton.clicked.connect(self.homing)
         self.homingButton.setMinimumSize(QSize(185, 60))
         self.homingButton.setMaximumSize(QSize(185, 16777215))
         self.homingButton.setFont(font1)
@@ -135,7 +135,13 @@ class Ui_MainWindow(object):
         QWidget.setTabOrder(self.setPosButton, self.pickBoxButton)
 
         self.retranslateUi(MainWindow)
+        self.setPosButton.setStyleSheet("QPushButton:!enabled{background-color:#FFC300;}")
+        self.setPosButton.setEnabled(False)
+        self.pickBoxButton.setStyleSheet("QPushButton:!enabled{background-color:#FFC300;}")
+        self.pickBoxButton.setEnabled(False)
+        self.homingButton.setStyleSheet("QPushButton:{background-color:#FFC300;}")
 
+        
         QMetaObject.connectSlotsByName(MainWindow)
     # setupUi
 
@@ -154,6 +160,18 @@ class Ui_MainWindow(object):
         grab.manualMode()
         ManualWindow.show()
 
+    def homing(self):
+        self.openButton.setEnabled(False)
+        self.homingButton.setEnabled(False)
+        self.manualButton.setEnabled(False)
+        time.sleep(1)
+        grab.startHoming()
+        self.homingButton.setStyleSheet("QPushButton{background-color: #58D68D;}")
+        self.openButton.setEnabled(True)
+        self.homingButton.setEnabled(True)
+        self.manualButton.setEnabled(True)
+        self.setPosButton.setEnabled(True)
+        self.pickBoxButton.setEnabled(True)
 
 class manualModeWindow(object):
     def setupUi(self, MainWindow):

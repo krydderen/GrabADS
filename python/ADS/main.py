@@ -148,6 +148,7 @@ class GRAB(object):
             # self.grabState.write(2)
         else:
             logging.info("ALL Axis:\t HOMING")
+            sleep(1)
             logging.info("ALL Axis:\t HOMING DONE")
         
     ######################################################################
