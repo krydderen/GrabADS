@@ -1,3 +1,4 @@
+from ctypes import c_uint
 import pyads
 import logging
 from time import sleep
@@ -73,6 +74,8 @@ class GRAB(object):
         self.vTargetPosition    :float  = self.plc.get_symbol('VAVL.targetPosition')
         self.vActualPosition    :float  = self.plc.get_symbol('VAVL.actualPosition')
         self.vActialPositionInt :float  = self.plc.get_symbol('VAVL.actualPositionInt')
+        
+        self.vCurrentErrorPower :int    = self.plc.get_symbol('VAVL.currentErrorPower')
         
     def open(self) -> None:
         try:
@@ -359,41 +362,171 @@ class GRAB(object):
         self.positionMode()
         sleep(self.CMDDELAY)
         self.enableAllAxis()
-        sleep(1)
-        
-        self.vTargetPosition.write(730)
+        ERROR = False
         sleep(self.CMDDELAY)
-        self.vEnableMove.write(True)
-        sleep(self.CMDDELAY)
-        self.vEnableMove.write(False)
-        sleep(self.CMDDELAY)
-        while (self.vBusy.read()):
-            logging.info('Moving Vertcial to Position...')
-            sleep(0.5)
-        logging.info('Moving done.')
-        
-        
-        self.rTargetPosition.write(79)
-        sleep(self.CMDDELAY)
-        self.rEnableMove.write(True)
-        sleep(self.CMDDELAY)
-        self.rEnableMove.write(False)
-        sleep(self.CMDDELAY)
-        while (self.rBusy.read()):
-            logging.info('Moving Rotation to Position...')
-            sleep(0.5)
-        logging.info('Moving done.')
-        
-        self.hTargetPosition.write(550)
-        sleep(self.CMDDELAY)
-        self.hEnableMove.write(True)
-        sleep(self.CMDDELAY)
-        self.hEnableMove.write(False)
-        sleep(self.CMDDELAY)
-        while (self.hBusy.read()):
-            logging.info('Moving Horizontal to Position...')
-            sleep(0.5)
-        logging.info('Moving done.')
+        while(not ERROR):
+            self.hTargetPosition.write(0)
+            sleep(self.CMDDELAY)
+            self.hEnableMove.write(True)
+            sleep(self.CMDDELAY)
+            self.hEnableMove.write(False)
+            sleep(self.CMDDELAY)
+            while (self.hBusy.read()):
+                logging.info('Moving Horizontal to Position...')
+                sleep(0.5)
+            logging.info('Moving done.')
+            
+            self.rTargetPosition.write(0)
+            sleep(self.CMDDELAY)
+            self.rEnableMove.write(True)
+            sleep(self.CMDDELAY)
+            self.rEnableMove.write(False)
+            sleep(self.CMDDELAY)
+            while (self.rBusy.read()):
+                logging.info('Moving Rotation to Position...')
+                sleep(0.5)
+            logging.info('Moving done.')
+            
+            self.vTargetPosition.write(0)
+            sleep(self.CMDDELAY)
+            self.vEnableMove.write(True)
+            sleep(self.CMDDELAY)
+            self.vEnableMove.write(False)
+            sleep(self.CMDDELAY)
+            while (self.vBusy.read() and not ERROR):
+                logging.info('Moving Vertcial to Position...')
+                sleep(0.5)
+                ERRORCODE = self.vCurrentErrorPower.read()
+                if ERRORCODE == 0:
+                    logging.info('No Errors: {ERRORCODE}')
+                    pass
+                else:
+                    ERROR = True
+                    logging.info('Current ErrorCode: {ERRORCODE}')
+
+            logging.info('Moving done.')
+            
+            self.vTargetPosition.write(730)
+            sleep(self.CMDDELAY)
+            self.vEnableMove.write(True)
+            sleep(self.CMDDELAY)
+            self.vEnableMove.write(False)
+            sleep(self.CMDDELAY)
+            while (self.vBusy.read()):
+                logging.info('Moving Vertcial to Position...')
+                sleep(0.5)
+            logging.info('Moving done.')
+            
+            
+            self.rTargetPosition.write(90)
+            sleep(self.CMDDELAY)
+            self.rEnableMove.write(True)
+            sleep(self.CMDDELAY)
+            self.rEnableMove.write(False)
+            sleep(self.CMDDELAY)
+            while (self.rBusy.read()):
+                logging.info('Moving Rotation to Position...')
+                sleep(0.5)
+            logging.info('Moving done.')
+            
+            self.hTargetPosition.write(500)
+            sleep(self.CMDDELAY)
+            self.hEnableMove.write(True)
+            sleep(self.CMDDELAY)
+            self.hEnableMove.write(False)
+            sleep(self.CMDDELAY)
+            while (self.hBusy.read()):
+                logging.info('Moving Horizontal to Position...')
+                sleep(0.5)
+            logging.info('Moving done.')
+            
+            self.vTargetPosition.write(900)
+            sleep(self.CMDDELAY)
+            self.vEnableMove.write(True)
+            sleep(self.CMDDELAY)
+            self.vEnableMove.write(False)
+            sleep(self.CMDDELAY)
+            while (self.vBusy.read()):
+                logging.info('Moving Vertcial to Position...')
+                sleep(0.5)
+            logging.info('Moving done.')
+            
+            self.hTargetPosition.write(0)
+            sleep(self.CMDDELAY)
+            self.hEnableMove.write(True)
+            sleep(self.CMDDELAY)
+            self.hEnableMove.write(False)
+            sleep(self.CMDDELAY)
+            while (self.hBusy.read()):
+                logging.info('Moving Horizontal to Position...')
+                sleep(0.5)
+            logging.info('Moving done.')
+            
+            self.rTargetPosition.write(0)
+            sleep(self.CMDDELAY)
+            self.rEnableMove.write(True)
+            sleep(self.CMDDELAY)
+            self.rEnableMove.write(False)
+            sleep(self.CMDDELAY)
+            while (self.rBusy.read()):
+                logging.info('Moving Rotation to Position...')
+                sleep(0.5)
+            logging.info('Moving done.')
+            
+            self.vTargetPosition.write(269)
+            sleep(self.CMDDELAY)
+            self.vEnableMove.write(True)
+            sleep(self.CMDDELAY)
+            self.vEnableMove.write(False)
+            sleep(self.CMDDELAY)
+            while (self.vBusy.read()):
+                logging.info('Moving Vertcial to Position...')
+                sleep(0.5)
+            logging.info('Moving done.')
+            
+            self.hTargetPosition.write(500)
+            sleep(self.CMDDELAY)
+            self.hEnableMove.write(True)
+            sleep(self.CMDDELAY)
+            self.hEnableMove.write(False)
+            sleep(self.CMDDELAY)
+            while (self.hBusy.read()):
+                logging.info('Moving Horizontal to Position...')
+                sleep(0.5)
+            logging.info('Moving done.')
+            
+            self.vTargetPosition.write(160)
+            sleep(self.CMDDELAY)
+            self.vEnableMove.write(True)
+            sleep(self.CMDDELAY)
+            self.vEnableMove.write(False)
+            sleep(self.CMDDELAY)
+            while (self.vBusy.read()):
+                logging.info('Moving Vertcial to Position...')
+                sleep(0.5)
+            logging.info('Moving done.')
+            
+            self.hTargetPosition.write(0)
+            sleep(self.CMDDELAY)
+            self.hEnableMove.write(True)
+            sleep(self.CMDDELAY)
+            self.hEnableMove.write(False)
+            sleep(self.CMDDELAY)
+            while (self.hBusy.read()):
+                logging.info('Moving Horizontal to Position...')
+                sleep(0.5)
+            logging.info('Moving done.')
+            
+            self.vTargetPosition.write(0)
+            sleep(self.CMDDELAY)
+            self.vEnableMove.write(True)
+            sleep(self.CMDDELAY)
+            self.vEnableMove.write(False)
+            sleep(self.CMDDELAY)
+            while (self.vBusy.read()):
+                logging.info('Moving Vertcial to Position...')
+                sleep(0.5)
+            logging.info('Moving done.')
         
         self.disableAllAxis()
         sleep(self.CMDDELAY)
