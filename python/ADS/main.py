@@ -195,6 +195,7 @@ class GRAB(object):
     def resetAllAxis(self) -> None:
         logging.info("ALL AXIS:\t RESETTING...")
         if self.CONNECTION:
+            self.disableAllAxis()
             self.resetHorizontalAxis()
             self.resetRotationalAxis()
             self.resetVerticalAxis()
