@@ -356,7 +356,7 @@ class GRAB(object):
         self.manualMode()
         
     # PickBox Position method
-    def movePosHorizontal(self, int : pos):
+    def movePosHorizontal(self, pos):
         sleep(self.CMDDELAY)
         self.hTargetPosition.write(pos)
         
@@ -370,7 +370,7 @@ class GRAB(object):
             sleep(0.5)
         logging.info('Moving done...')
     
-    def movePosRotational(self, int : pos):
+    def movePosRotational(self, pos):
         sleep(self.CMDDELAY)
         self.rTargetPosition.write(pos)
         
@@ -392,7 +392,7 @@ class GRAB(object):
         else:
             pass
             
-    def movePosTarget(self, int : pos, targetPos, enableMove, currentErrorPower, currentCmdError, busy):
+    def movePosTarget(self, pos : int, targetPos, enableMove, currentErrorPower, currentCmdError, busy):
         sleep(self.CMDDELAY)
         self.checkError(currentErrorPower, currentCmdError)
         sleep(self.CMDDELAY)
