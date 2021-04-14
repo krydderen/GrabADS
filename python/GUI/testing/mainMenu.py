@@ -564,8 +564,13 @@ class manualModeWindow(object):
     
     # retranslateUi 
     def manualToMenu(self):
-        MainWindow.show()
+        time.sleep(0.1)
+        grab.stopAllAxis()
+        time.sleep(0.1)
+        grab.disableAllAxis()
+        time.sleep(0.1)
         grab.standbyMode()
+        MainWindow.show()
         ManualWindow.hide()
 
 
