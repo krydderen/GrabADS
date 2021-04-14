@@ -101,19 +101,19 @@ class GRAB(object):
     # Global Variable changes
     def standbyMode(self) -> None:
         if self.CONNECTION: self.grabState.write(0)
-        logging.info('Current State: \t  STANDBY')
+        logging.info('Current State \t|\t STANDBY')
         
     def homingMode(self) -> None:
         if self.CONNECTION: self.grabState.write(1)
-        logging.info('Current State: \t  HOMINGMODE')
+        logging.info('Current State \t|\t HOMINGMODE')
         
     def manualMode(self) -> None:
         if self.CONNECTION: self.grabState.write(2)
-        logging.info('Current State: \t  MANUALMODE')
+        logging.info('Current State \t|\t MANUALMODE')
     
     def positionMode(self) -> None:
         if self.CONNECTION: self.grabState.write(3)
-        logging.info('Currentstate: \t  POSITIONMODE')
+        logging.info('Currentstate \t|\t POSITIONMODE')
     
     ######################################################################
     # Reading the different axis
@@ -153,21 +153,21 @@ class GRAB(object):
         if self.CONNECTION:
             # self.grabState.write(1)
             self.homingMode()
-            logging.info("ALL Axis:\t HOMING....")
+            logging.info("ALL Axis \t|\t HOMING....")
             sleep(0.2)
             print(self.homingDone.read())
             while(not self.homingDone.read()):
                 print(self.homingDone.read())
                 sleep(0.5)
             self.homingDone.write(False)
-            logging.info("ALL Axis:\t HOMING DONE")
+            logging.info("ALL Axis \t|\t HOMING DONE")
             sleep(0.2)
             # Testing GUI
             # self.grabState.write(2)
         else:
-            logging.info("ALL Axis:\t HOMING")
+            logging.info("ALL Axis \t|\t HOMING")
             sleep(1)
-            logging.info("ALL Axis:\t HOMING DONE")
+            logging.info("ALL Axis \t|\t HOMING DONE")
         
     ######################################################################
     # Resetting different axis
@@ -176,29 +176,29 @@ class GRAB(object):
             self.hResetError.write(True)
             sleep(self.CMDDELAY)
             self.hResetError.write(False)
-        logging.debug("Horizontal Axis:\t RESET")
+        logging.debug("Horizontal Axis \t|\t RESET")
         
     def resetRotationalAxis(self) -> None:
         if self.CONNECTION:
             self.rResetError.write(True)
             sleep(self.CMDDELAY)
             self.rResetError.write(False)
-        logging.debug("Rotation Axis:\t RESET")
+        logging.debug("Rotation Axis: \t|\t RESET")
     
     def resetVerticalAxis(self) -> None:
         if self.CONNECTION:
             self.vResetError.write(True)
             sleep(self.CMDDELAY)
             self.vResetError.write(False)
-        logging.debug("Vertical Axis: \t RESET")
+        logging.debug("Vertical Axis \t|\t RESET")
     
     def resetAllAxis(self) -> None:
-        logging.info("ALL AXIS:\t RESETTING...")
+        logging.info("ALL AXIS \t|\t RESETTING...")
         if self.CONNECTION:
             self.resetHorizontalAxis()
             self.resetRotationalAxis()
             self.resetVerticalAxis()
-        logging.info("ALL AXIS:\t RESET")
+        logging.info("ALL AXIS \t|\t RESET")
     ######################################################################
     # Enable or disable
     def enableHorizontalAxis(self):
@@ -237,7 +237,7 @@ class GRAB(object):
             self.disableHorizontalAxis()
             self.disableRotationalAxis()
             self.disableVerticalAxis()
-        logging.info('All Axis \t|\t  DISABLED')
+        logging.info('All Axis \t|\t DISABLED')
     ######################################################################
     # Operation for horizontal axis
     def startExtendSnake(self):
@@ -303,7 +303,7 @@ class GRAB(object):
     # Stop all 
     def stopAllAxis(self) -> None:
         if self.CONNECTION: self.stopVertical();self.stopRotation();self.stopHorizontal()
-        logging.info("All Axis |\t STOPPED")
+        logging.info("All Axis \t|\t STOPPED")
     
     # def disableAllAxis(self) -> None:
         # if self.CONNECTION: self.disableVerticalAxis();self.disableRotation
