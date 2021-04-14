@@ -76,7 +76,7 @@ class GRAB(object):
         self.vActialPositionInt :float  = self.plc.get_symbol('VAVL.actualPositionInt')
         
         self.vCurrentErrorPower :int    = self.plc.get_symbol('VAVL.currentErrorPower')
-        
+        self.vCurrentErrorCmd   :int    = self.plc.get_symbol('VAVL.currentCurrentCommand') 
     def open(self) -> None:
         try:
             self.plc.open()
@@ -355,6 +355,62 @@ class GRAB(object):
         logging.info('Moving done...')
         self.manualMode()
         
+    # PickBox Position method
+    def movePosHorizontal(self, int : pos):
+        sleep(self.CMDDELAY)
+        self.hTargetPosition.write(pos)
+        
+        sleep(self.CMDDELAY)
+        self.hEnableMove.write(True)
+        sleep(self.CMDDELAY)
+        self.hEnableMove.write(False)
+        
+        while(self.hBusy.read()):
+            logging.info('Moving Horizontal to zero...')
+            sleep(0.5)
+        logging.info('Moving done...')
+    
+    def movePosRotational(self, int : pos):
+        sleep(self.CMDDELAY)
+        self.rTargetPosition.write(pos)
+        
+        sleep(self.CMDDELAY)
+        self.rEnableMove.write(True)
+        sleep(self.CMDDELAY)
+        self.rEnableMove.write(False)
+        
+        while(self.rBusy.read()):
+            logging.info('Moving Horizontal to zero...')
+            sleep(0.5)
+        logging.info('Moving done...')
+    
+    def checkError(self, currentErrorPower, currentCmdError):
+        if currentErrorPower.read() != 0:
+            raise Exception('Power Error: {currentErrorPower}')
+        elif currentCmdError.read() != 0:
+            raise Exception('Cmd Error: {currentCmdError}')
+        else:
+            pass
+            
+    def movePosTarget(self, int : pos, targetPos, enableMove, currentErrorPower, currentCmdError, busy):
+        sleep(self.CMDDELAY)
+        self.checkError(currentErrorPower, currentCmdError)
+        sleep(self.CMDDELAY)
+        targetPos.write(0)
+        sleep(self.CMDDELAY)
+        enableMove.write(True)
+        sleep(self.CMDDELAY)
+        enableMove.write(False)
+        sleep(self.CMDDELAY)
+        self.checkError(currentErrorPower, currentCmdError)
+        sleep(self.CMDDELAY)
+            
+        while(busy.read()):
+            logging.info('Moving..')
+            sleep(0.5)
+            self.checkError(currentErrorPower, currentCmdError)
+        logging.info('Moving done...')
+        
         
     ######################################################################
     # Testing functions
@@ -412,10 +468,16 @@ class GRAB(object):
             sleep(self.CMDDELAY)
             self.vEnableMove.write(False)
             sleep(self.CMDDELAY)
-            while (self.vBusy.read()):
+            while (self.vBusy.read() and not ERROR):
                 logging.info('Moving Vertcial to Position...')
                 sleep(0.5)
-            logging.info('Moving done.')
+                ERRORCODE = self.vCurrentErrorPower.read()
+                if ERRORCODE == 0:
+                    logging.info('No Errors: {ERRORCODE}')
+                    pass
+                else:
+                    ERROR = True
+                    logging.info('Current ErrorCode: {ERRORCODE}')
             
             
             self.rTargetPosition.write(90)
@@ -446,10 +508,16 @@ class GRAB(object):
             sleep(self.CMDDELAY)
             self.vEnableMove.write(False)
             sleep(self.CMDDELAY)
-            while (self.vBusy.read()):
+            while (self.vBusy.read() and not ERROR):
                 logging.info('Moving Vertcial to Position...')
                 sleep(0.5)
-            logging.info('Moving done.')
+                ERRORCODE = self.vCurrentErrorPower.read()
+                if ERRORCODE == 0:
+                    logging.info('No Errors: {ERRORCODE}')
+                    pass
+                else:
+                    ERROR = True
+                    logging.info('Current ErrorCode: {ERRORCODE}')
             
             self.hTargetPosition.write(0)
             sleep(self.CMDDELAY)
@@ -479,10 +547,16 @@ class GRAB(object):
             sleep(self.CMDDELAY)
             self.vEnableMove.write(False)
             sleep(self.CMDDELAY)
-            while (self.vBusy.read()):
+            while (self.vBusy.read() and not ERROR):
                 logging.info('Moving Vertcial to Position...')
                 sleep(0.5)
-            logging.info('Moving done.')
+                ERRORCODE = self.vCurrentErrorPower.read()
+                if ERRORCODE == 0:
+                    logging.info('No Errors: {ERRORCODE}')
+                    pass
+                else:
+                    ERROR = True
+                    logging.info('Current ErrorCode: {ERRORCODE}')
             
             self.hTargetPosition.write(500)
             sleep(self.CMDDELAY)
@@ -501,10 +575,16 @@ class GRAB(object):
             sleep(self.CMDDELAY)
             self.vEnableMove.write(False)
             sleep(self.CMDDELAY)
-            while (self.vBusy.read()):
+            while (self.vBusy.read() and not ERROR):
                 logging.info('Moving Vertcial to Position...')
                 sleep(0.5)
-            logging.info('Moving done.')
+                ERRORCODE = self.vCurrentErrorPower.read()
+                if ERRORCODE == 0:
+                    logging.info('No Errors: {ERRORCODE}')
+                    pass
+                else:
+                    ERROR = True
+                    logging.info('Current ErrorCode: {ERRORCODE}')
             
             self.hTargetPosition.write(0)
             sleep(self.CMDDELAY)
@@ -523,10 +603,17 @@ class GRAB(object):
             sleep(self.CMDDELAY)
             self.vEnableMove.write(False)
             sleep(self.CMDDELAY)
-            while (self.vBusy.read()):
+            while (self.vBusy.read() and not ERROR):
                 logging.info('Moving Vertcial to Position...')
                 sleep(0.5)
-            logging.info('Moving done.')
+                ERRORCODE = self.vCurrentErrorPower.read()
+                if ERRORCODE == 0:
+                    logging.info('No Errors: {ERRORCODE}')
+                    pass
+                else:
+                    ERROR = True
+                    logging.info('Current ErrorCode: {ERRORCODE}')
+            ERROR = True
         
         self.disableAllAxis()
         sleep(self.CMDDELAY)
