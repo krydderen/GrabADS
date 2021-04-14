@@ -143,12 +143,6 @@ class GRAB(object):
         self.readRotationalAxis()
         self.readVerticalAxis()
     
-    def resetAllErrors(self):
-        if self.CONNECTION:
-            self.vResetError.write(True)
-            self.rResetError.write(True)
-            self.hResetError.write(True)
-            
     def startHoming(self):
         if self.CONNECTION:
             # self.grabState.write(1)
