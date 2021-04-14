@@ -384,6 +384,7 @@ class GRAB(object):
             sleep(0.5)
         logging.info('Moving done...')
     
+    # Checks CMD or POWER error from given AXIS
     def checkError(self, currentErrorPower, currentCmdError):
         if currentErrorPower.read() != 0:
             raise Exception('Power Error: {currentErrorPower}')
@@ -391,12 +392,13 @@ class GRAB(object):
             raise Exception('Cmd Error: {currentCmdError}')
         else:
             pass
-            
+    
+    # Universal MovePos method using given axis parameters.
     def movePosTarget(self, pos : int, targetPos, enableMove, currentErrorPower, currentCmdError, busy):
         sleep(self.CMDDELAY)
         self.checkError(currentErrorPower, currentCmdError)
         sleep(self.CMDDELAY)
-        targetPos.write(0)
+        targetPos.write(pos)
         sleep(self.CMDDELAY)
         enableMove.write(True)
         sleep(self.CMDDELAY)
@@ -618,5 +620,119 @@ class GRAB(object):
         self.disableAllAxis()
         sleep(self.CMDDELAY)
         self.standbyMode()
-        
-        
+    
+    ################################################################
+    # New Pickbox method 
+    def newPickBox(self) -> None:
+        try:
+            self.positionMode()
+            sleep(self.CMDDELAY)
+            self.enableAllAxis()
+            sleep(self.CMDDELAY)
+            
+            # Start movement 
+            # Start by moving everyone to ZERO.
+            self.movePosTarget(0,
+                                self.hTargetPosition,
+                                self.hEnableMove,
+                                self.hCurrentErrorPower,
+                                self.hCurrentErrorCmd,
+                                self.hBusy)
+            self.movePosTarget(0,
+                                self.rTargetPosition,
+                                self.rEnableMove,
+                                self.rCurrentErrorPower,
+                                self.rCurrentErrorCmd,
+                                self.rBusy)
+            self.movePosTarget(0,
+                                self.vTargetPosition,
+                                self.vEnableMove,
+                                self.vCurrentErrorPower,
+                                self.vCurrentErrorCmd,
+                                self.vBusy)
+            #Ascend to given position before reaching for box
+            self.movePosTarget(730,
+                                self.vTargetPosition,
+                                self.vEnableMove,
+                                self.vCurrentErrorPower,
+                                self.vCurrentErrorCmd,
+                                self.vBusy)
+            # Rotate towards table
+            self.movePosTarget(90,
+                                self.rTargetPosition,
+                                self.rEnableMove,
+                                self.rCurrentErrorPower,
+                                self.rCurrentErrorCmd,
+                                self.rBusy)
+            # Reach out for box
+            self.movePosTarget(500,
+                                self.hTargetPosition,
+                                self.hEnableMove,
+                                self.hCurrentErrorPower,
+                                self.hCurrentErrorCmd,
+                                self.hBusy)
+            # Lift the box
+            self.movePosTarget(900,
+                                self.vTargetPosition,
+                                self.vEnableMove,
+                                self.vCurrentErrorPower,
+                                self.vCurrentErrorCmd,
+                                self.vBusy)
+            # Pull the box in
+            self.movePosTarget(0,
+                                self.hTargetPosition,
+                                self.hEnableMove,
+                                self.hCurrentErrorPower,
+                                self.hCurrentErrorCmd,
+                                self.hBusy)
+            # Rotate to zero, before lowering
+            self.movePosTarget(0,
+                                self.rTargetPosition,
+                                self.rEnableMove,
+                                self.rCurrentErrorPower,
+                                self.rCurrentErrorCmd,
+                                self.rBusy)
+            # Descend down to pallet
+            self.movePosTarget(269,
+                                self.vTargetPosition,
+                                self.vEnableMove,
+                                self.vCurrentErrorPower,
+                                self.vCurrentErrorCmd,
+                                self.vBusy)
+            # Extend snake to position box on pallet.
+            self.movePosTarget(500,
+                                self.hTargetPosition,
+                                self.hEnableMove,
+                                self.hCurrentErrorPower,
+                                self.hCurrentErrorCmd,
+                                self.hBusy)
+            # Descend to let go of box
+            self.movePosTarget(160,
+                                self.vTargetPosition,
+                                self.vEnableMove,
+                                self.vCurrentErrorPower,
+                                self.vCurrentErrorCmd,
+                                self.vBusy)
+            # Retract snake to zero
+            self.movePosTarget(0,
+                                self.hTargetPosition,
+                                self.hEnableMove,
+                                self.hCurrentErrorPower,
+                                self.hCurrentErrorCmd,
+                                self.hBusy)
+            # Rotate back to table
+            self.movePosTarget(90,
+                                self.rTargetPosition,
+                                self.rEnableMove,
+                                self.rCurrentErrorPower,
+                                self.rCurrentErrorCmd,
+                                self.rBusy)
+            
+        except Exception as e:
+            logging.exception("Exception flew by! \t|\t "+e)
+            self.stopAllAxis()
+        finally:
+            sleep(self.CMDDELAY)
+            self.disableAllAxis()
+            sleep(self.CMDDELAY)
+            self.standbyMode()
