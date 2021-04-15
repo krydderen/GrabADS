@@ -108,7 +108,7 @@ class Ui_MainWindow(object):
 
         self.pickBoxButton = QPushButton(self.centralwidget)
         self.pickBoxButton.setObjectName(u"pickBoxButton")
-        self.pickBoxButton.clicked.connect(lambda : grab.pickBox())
+        self.pickBoxButton.clicked.connect(lambda : grab.newPickBox())
         self.pickBoxButton.setMinimumSize(QSize(185, 60))
         self.pickBoxButton.setMaximumSize(QSize(185, 16777215))
         self.pickBoxButton.setFont(font1)
