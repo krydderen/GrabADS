@@ -1,4 +1,3 @@
-from ctypes import c_uint
 import pyads
 import logging
 from time import sleep
@@ -8,7 +7,7 @@ class GRAB(object):
     PORT        :int    = pyads.PORT_TC3PLC1
     WAITTIME    :float  = 0.5
     DRIVETIME   :float  = 1
-    CMDDELAY    :float  = 0.05
+    CMDDELAY    :float  = 0.5
     CONNECTION  :bool   = False
     STANDBY     :int    = 0
     HOMINGMODE  :int    = 1
@@ -40,10 +39,10 @@ class GRAB(object):
         self.hEnableMove        :bool   = self.plc.get_symbol('HAVL.enableMove')
         self.hTargetPosition    :float  = self.plc.get_symbol('HAVL.targetPosition')
         self.hActualPosition    :float  = self.plc.get_symbol('HAVL.actualPosition')
-        self.hActialPositionInt :float  = self.plc.get_symbol('HAVL.actualPositionInt')
+        self.hActualPositionInt :int    = self.plc.get_symbol('HAVL.actualPositionInt')
         
-        self.hCurrentErrorPower :int    = self.plc.get_symbol('HAVL.currentErrorPower')
-        self.hCurrentErrorCmd   :int    = self.plc.get_symbol('HAVL.currentErrorCommand') 
+        self.hCurrentErrorPower     = self.plc.get_symbol('HAVL.currentErrorPower')
+        self.hCurrentErrorCmd       = self.plc.get_symbol('HAVL.currentErrorCommand') 
         
         ###############################################################
         # Rotational Axis 
@@ -60,10 +59,10 @@ class GRAB(object):
         self.rEnableMove        :bool   = self.plc.get_symbol('RAVL.enableMove')
         self.rTargetPosition    :float  = self.plc.get_symbol('RAVL.targetPosition')
         self.rActualPosition    :float  = self.plc.get_symbol('RAVL.actualPosition')
-        self.rActialPositionInt :float  = self.plc.get_symbol('RAVL.actualPositionInt')
+        self.rActualPositionInt :int    = self.plc.get_symbol('RAVL.actualPositionInt')
         
-        self.rCurrentErrorPower :int    = self.plc.get_symbol('RAVL.currentErrorPower')
-        self.rCurrentErrorCmd   :int    = self.plc.get_symbol('RAVL.currentErrorCommand') 
+        self.rCurrentErrorPower     = self.plc.get_symbol('RAVL.currentErrorPower')
+        self.rCurrentErrorCmd       = self.plc.get_symbol('RAVL.currentErrorCommand') 
         ###############################################################
         # Vertical Axis 
         self.vEnable            :bool   = self.plc.get_symbol('VAVL.enable')
@@ -79,10 +78,10 @@ class GRAB(object):
         self.vEnableMove        :bool   = self.plc.get_symbol('VAVL.enableMove')
         self.vTargetPosition    :float  = self.plc.get_symbol('VAVL.targetPosition')
         self.vActualPosition    :float  = self.plc.get_symbol('VAVL.actualPosition')
-        self.vActialPositionInt :float  = self.plc.get_symbol('VAVL.actualPositionInt')
+        self.vActualPositionInt :int    = self.plc.get_symbol('VAVL.actualPositionInt')
         
-        self.vCurrentErrorPower :int    = self.plc.get_symbol('VAVL.currentErrorPower')
-        self.vCurrentErrorCmd   :int    = self.plc.get_symbol('VAVL.currentErrorCommand') 
+        self.vCurrentErrorPower     = self.plc.get_symbol('VAVL.currentErrorPower')
+        self.vCurrentErrorCmd       = self.plc.get_symbol('VAVL.currentErrorCommand') 
     def open(self) -> None:
         try:
             self.plc.open()
@@ -387,14 +386,14 @@ class GRAB(object):
     # Checks CMD or POWER error from given AXIS
     def checkError(self, currentErrorPower, currentCmdError):
         if currentErrorPower.read() != 0:
-            raise Exception('Power Error: {currentErrorPower}')
+            raise Exception('Power Error: \t'+ str(currentErrorPower.read()))
         elif currentCmdError.read() != 0:
-            raise Exception('Cmd Error: {currentCmdError}')
+            raise Exception('Cmd Error: \t'+ str(currentCmdError.read()))
         else:
             pass
     
     # Universal MovePos method using given axis parameters.
-    def movePosTarget(self, pos : int, targetPos, enableMove, currentErrorPower, currentCmdError, busy):
+    def movePosTarget(self, pos : int, targetPos, currentPos, enableMove, currentErrorPower, currentCmdError, busy):
         self.checkError(currentErrorPower, currentCmdError)
         sleep(self.CMDDELAY)
         targetPos.write(pos)
@@ -409,7 +408,8 @@ class GRAB(object):
         logging.info('Moving...')
         while(busy.read()):
             logging.debug('Moving..')
-            sleep(0.2)
+            logging.info('Position \t|\t' + str(currentPos.read()))
+            sleep(0.1)
             self.checkError(currentErrorPower, currentCmdError)
         logging.info('Moving done...')
         
@@ -424,31 +424,36 @@ class GRAB(object):
             self.positionMode()
             sleep(self.CMDDELAY)
             self.enableAllAxis()
-            sleep(self.CMDDELAY)
+            sleep(1)
             
             # Start movement 
             # Start by moving everyone to ZERO.
             self.movePosTarget(0,
                                 self.hTargetPosition,
+                                self.hActualPositionInt,
                                 self.hEnableMove,
                                 self.hCurrentErrorPower,
                                 self.hCurrentErrorCmd,
                                 self.hBusy)
             self.movePosTarget(0,
                                 self.rTargetPosition,
+                                self.rActualPositionInt,
                                 self.rEnableMove,
                                 self.rCurrentErrorPower,
                                 self.rCurrentErrorCmd,
                                 self.rBusy)
             self.movePosTarget(0,
                                 self.vTargetPosition,
+                                self.vActualPositionInt,
                                 self.vEnableMove,
                                 self.vCurrentErrorPower,
                                 self.vCurrentErrorCmd,
                                 self.vBusy)
+            
             #Ascend to given position before reaching for box
             self.movePosTarget(730,
                                 self.vTargetPosition,
+                                self.vActualPositionInt,
                                 self.vEnableMove,
                                 self.vCurrentErrorPower,
                                 self.vCurrentErrorCmd,
@@ -456,6 +461,7 @@ class GRAB(object):
             # Rotate towards table
             self.movePosTarget(90,
                                 self.rTargetPosition,
+                                self.rActualPositionInt,
                                 self.rEnableMove,
                                 self.rCurrentErrorPower,
                                 self.rCurrentErrorCmd,
@@ -463,6 +469,7 @@ class GRAB(object):
             # Reach out for box
             self.movePosTarget(500,
                                 self.hTargetPosition,
+                                self.hActualPositionInt,
                                 self.hEnableMove,
                                 self.hCurrentErrorPower,
                                 self.hCurrentErrorCmd,
@@ -470,6 +477,7 @@ class GRAB(object):
             # Lift the box
             self.movePosTarget(900,
                                 self.vTargetPosition,
+                                self.vActualPositionInt,
                                 self.vEnableMove,
                                 self.vCurrentErrorPower,
                                 self.vCurrentErrorCmd,
@@ -477,6 +485,7 @@ class GRAB(object):
             # Pull the box in
             self.movePosTarget(0,
                                 self.hTargetPosition,
+                                self.hActualPositionInt,
                                 self.hEnableMove,
                                 self.hCurrentErrorPower,
                                 self.hCurrentErrorCmd,
@@ -484,6 +493,7 @@ class GRAB(object):
             # Rotate to zero, before lowering
             self.movePosTarget(0,
                                 self.rTargetPosition,
+                                self.rActualPositionInt,
                                 self.rEnableMove,
                                 self.rCurrentErrorPower,
                                 self.rCurrentErrorCmd,
@@ -491,6 +501,7 @@ class GRAB(object):
             # Descend down to pallet
             self.movePosTarget(269,
                                 self.vTargetPosition,
+                                self.vActualPositionInt,
                                 self.vEnableMove,
                                 self.vCurrentErrorPower,
                                 self.vCurrentErrorCmd,
@@ -498,13 +509,15 @@ class GRAB(object):
             # Extend snake to position box on pallet.
             self.movePosTarget(500,
                                 self.hTargetPosition,
+                                self.hActualPositionInt,
                                 self.hEnableMove,
                                 self.hCurrentErrorPower,
                                 self.hCurrentErrorCmd,
                                 self.hBusy)
             # Descend to let go of box
-            self.movePosTarget(150,
+            self.movePosTarget(145,
                                 self.vTargetPosition,
+                                self.vActualPositionInt,
                                 self.vEnableMove,
                                 self.vCurrentErrorPower,
                                 self.vCurrentErrorCmd,
@@ -512,22 +525,80 @@ class GRAB(object):
             # Retract snake to zero
             self.movePosTarget(0,
                                 self.hTargetPosition,
+                                self.hActualPositionInt,
                                 self.hEnableMove,
                                 self.hCurrentErrorPower,
                                 self.hCurrentErrorCmd,
                                 self.hBusy)
-            # Rotate back to table
+            # Extend snake to position box on pallet.
+            self.movePosTarget(500,
+                                self.hTargetPosition,
+                                self.hActualPositionInt,
+                                self.hEnableMove,
+                                self.hCurrentErrorPower,
+                                self.hCurrentErrorCmd,
+                                self.hBusy)
+            # Ascend box up from pallet
+            self.movePosTarget(260,
+                                self.vTargetPosition,
+                                self.vActualPositionInt,
+                                self.vEnableMove,
+                                self.vCurrentErrorPower,
+                                self.vCurrentErrorCmd,
+                                self.vBusy)
+            # Retract snake to zero
+            self.movePosTarget(0,
+                                self.hTargetPosition,
+                                self.hActualPositionInt,
+                                self.hEnableMove,
+                                self.hCurrentErrorPower,
+                                self.hCurrentErrorCmd,
+                                self.hBusy)
+            # Lift the box
+            self.movePosTarget(900,
+                                self.vTargetPosition,
+                                self.vActualPositionInt,
+                                self.vEnableMove,
+                                self.vCurrentErrorPower,
+                                self.vCurrentErrorCmd,
+                                self.vBusy)
+            # Rotate towards table
             self.movePosTarget(90,
                                 self.rTargetPosition,
+                                self.rActualPositionInt,
                                 self.rEnableMove,
                                 self.rCurrentErrorPower,
                                 self.rCurrentErrorCmd,
                                 self.rBusy)
+            # Extend snake to position box on pallet.
+            self.movePosTarget(500,
+                                self.hTargetPosition,
+                                self.hActualPositionInt,
+                                self.hEnableMove,
+                                self.hCurrentErrorPower,
+                                self.hCurrentErrorCmd,
+                                self.hBusy)
+            #Ascend to given position before reaching for box
+            self.movePosTarget(730,
+                                self.vTargetPosition,
+                                self.vActualPositionInt,
+                                self.vEnableMove,
+                                self.vCurrentErrorPower,
+                                self.vCurrentErrorCmd,
+                                self.vBusy)
+            # Retract snake to zero
+            self.movePosTarget(0,
+                                self.hTargetPosition,
+                                self.hActualPositionInt,
+                                self.hEnableMove,
+                                self.hCurrentErrorPower,
+                                self.hCurrentErrorCmd,
+                                self.hBusy)
             
         except Exception as e:
-            logging.exception("Exception flew by! \t|\t "+e)
-            self.stopAllAxis()
+            logging.exception("Exception flew by! \t|\t "+e.__str__())
         finally:
+            self.stopAllAxis()
             sleep(self.CMDDELAY)
             self.disableAllAxis()
             sleep(self.CMDDELAY)
