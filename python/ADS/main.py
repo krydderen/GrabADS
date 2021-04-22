@@ -7,7 +7,7 @@ class GRAB(object):
     PORT        :int    = pyads.PORT_TC3PLC1
     WAITTIME    :float  = 0.5
     DRIVETIME   :float  = 1
-    CMDDELAY    :float  = 0.5
+    CMDDELAY    :float  = 0.2
     CONNECTION  :bool   = False
     STANDBY     :int    = 0
     HOMINGMODE  :int    = 1
@@ -393,13 +393,13 @@ class GRAB(object):
             pass
     
     # Universal MovePos method using given axis parameters.
-    def movePosTarget(self, pos : int, targetPos, currentPos, enableMove, currentErrorPower, currentCmdError, busy):
+    def movePosTarget(self, pos : int, targetPos, currentPos, enableMove, currentErrorPower, currentCmdError, busy, axis):
         self.checkError(currentErrorPower, currentCmdError)
         sleep(self.CMDDELAY)
         targetPos.write(pos)
         sleep(self.CMDDELAY)
         enableMove.write(True)
-        sleep(self.CMDDELAY)
+        sleep(1)
         enableMove.write(False)
         sleep(self.CMDDELAY)
         self.checkError(currentErrorPower, currentCmdError)
@@ -408,7 +408,7 @@ class GRAB(object):
         logging.info('Moving...')
         while(busy.read()):
             logging.debug('Moving..')
-            logging.info('Position \t|\t' + str(currentPos.read()))
+            logging.info('Position \t| '+str(axis)+ '\t' + str(currentPos.read()))
             sleep(0.1)
             self.checkError(currentErrorPower, currentCmdError)
         logging.info('Moving done...')
@@ -425,7 +425,7 @@ class GRAB(object):
             sleep(self.CMDDELAY)
             self.enableAllAxis()
             sleep(1)
-            
+            loops = 10
             # Start movement 
             # Start by moving everyone to ZERO.
             self.movePosTarget(0,
@@ -434,21 +434,24 @@ class GRAB(object):
                                 self.hEnableMove,
                                 self.hCurrentErrorPower,
                                 self.hCurrentErrorCmd,
-                                self.hBusy)
-            self.movePosTarget(0,
+                                self.hBusy,
+                                "Hor. pos")
+            self.movePosTarget(-2,
                                 self.rTargetPosition,
                                 self.rActualPositionInt,
                                 self.rEnableMove,
                                 self.rCurrentErrorPower,
                                 self.rCurrentErrorCmd,
-                                self.rBusy)
+                                self.rBusy,
+                                "Rot. angle")
             self.movePosTarget(0,
                                 self.vTargetPosition,
                                 self.vActualPositionInt,
                                 self.vEnableMove,
                                 self.vCurrentErrorPower,
                                 self.vCurrentErrorCmd,
-                                self.vBusy)
+                                self.vBusy,
+                                "X")
             
             #Ascend to given position before reaching for box
             self.movePosTarget(730,
@@ -457,7 +460,8 @@ class GRAB(object):
                                 self.vEnableMove,
                                 self.vCurrentErrorPower,
                                 self.vCurrentErrorCmd,
-                                self.vBusy)
+                                self.vBusy,
+                                "X")
             # Rotate towards table
             self.movePosTarget(90,
                                 self.rTargetPosition,
@@ -465,135 +469,157 @@ class GRAB(object):
                                 self.rEnableMove,
                                 self.rCurrentErrorPower,
                                 self.rCurrentErrorCmd,
-                                self.rBusy)
-            # Reach out for box
-            self.movePosTarget(500,
-                                self.hTargetPosition,
-                                self.hActualPositionInt,
-                                self.hEnableMove,
-                                self.hCurrentErrorPower,
-                                self.hCurrentErrorCmd,
-                                self.hBusy)
-            # Lift the box
-            self.movePosTarget(900,
-                                self.vTargetPosition,
-                                self.vActualPositionInt,
-                                self.vEnableMove,
-                                self.vCurrentErrorPower,
-                                self.vCurrentErrorCmd,
-                                self.vBusy)
-            # Pull the box in
-            self.movePosTarget(0,
-                                self.hTargetPosition,
-                                self.hActualPositionInt,
-                                self.hEnableMove,
-                                self.hCurrentErrorPower,
-                                self.hCurrentErrorCmd,
-                                self.hBusy)
-            # Rotate to zero, before lowering
-            self.movePosTarget(0,
-                                self.rTargetPosition,
-                                self.rActualPositionInt,
-                                self.rEnableMove,
-                                self.rCurrentErrorPower,
-                                self.rCurrentErrorCmd,
-                                self.rBusy)
-            # Descend down to pallet
-            self.movePosTarget(269,
-                                self.vTargetPosition,
-                                self.vActualPositionInt,
-                                self.vEnableMove,
-                                self.vCurrentErrorPower,
-                                self.vCurrentErrorCmd,
-                                self.vBusy)
-            # Extend snake to position box on pallet.
-            self.movePosTarget(500,
-                                self.hTargetPosition,
-                                self.hActualPositionInt,
-                                self.hEnableMove,
-                                self.hCurrentErrorPower,
-                                self.hCurrentErrorCmd,
-                                self.hBusy)
-            # Descend to let go of box
-            self.movePosTarget(145,
-                                self.vTargetPosition,
-                                self.vActualPositionInt,
-                                self.vEnableMove,
-                                self.vCurrentErrorPower,
-                                self.vCurrentErrorCmd,
-                                self.vBusy)
-            # Retract snake to zero
-            self.movePosTarget(0,
-                                self.hTargetPosition,
-                                self.hActualPositionInt,
-                                self.hEnableMove,
-                                self.hCurrentErrorPower,
-                                self.hCurrentErrorCmd,
-                                self.hBusy)
-            # Extend snake to position box on pallet.
-            self.movePosTarget(500,
-                                self.hTargetPosition,
-                                self.hActualPositionInt,
-                                self.hEnableMove,
-                                self.hCurrentErrorPower,
-                                self.hCurrentErrorCmd,
-                                self.hBusy)
-            # Ascend box up from pallet
-            self.movePosTarget(260,
-                                self.vTargetPosition,
-                                self.vActualPositionInt,
-                                self.vEnableMove,
-                                self.vCurrentErrorPower,
-                                self.vCurrentErrorCmd,
-                                self.vBusy)
-            # Retract snake to zero
-            self.movePosTarget(0,
-                                self.hTargetPosition,
-                                self.hActualPositionInt,
-                                self.hEnableMove,
-                                self.hCurrentErrorPower,
-                                self.hCurrentErrorCmd,
-                                self.hBusy)
-            # Lift the box
-            self.movePosTarget(900,
-                                self.vTargetPosition,
-                                self.vActualPositionInt,
-                                self.vEnableMove,
-                                self.vCurrentErrorPower,
-                                self.vCurrentErrorCmd,
-                                self.vBusy)
-            # Rotate towards table
-            self.movePosTarget(90,
-                                self.rTargetPosition,
-                                self.rActualPositionInt,
-                                self.rEnableMove,
-                                self.rCurrentErrorPower,
-                                self.rCurrentErrorCmd,
-                                self.rBusy)
-            # Extend snake to position box on pallet.
-            self.movePosTarget(500,
-                                self.hTargetPosition,
-                                self.hActualPositionInt,
-                                self.hEnableMove,
-                                self.hCurrentErrorPower,
-                                self.hCurrentErrorCmd,
-                                self.hBusy)
-            #Ascend to given position before reaching for box
-            self.movePosTarget(730,
-                                self.vTargetPosition,
-                                self.vActualPositionInt,
-                                self.vEnableMove,
-                                self.vCurrentErrorPower,
-                                self.vCurrentErrorCmd,
-                                self.vBusy)
-            # Retract snake to zero
-            self.movePosTarget(0,
-                                self.hTargetPosition,
-                                self.hActualPositionInt,
-                                self.hEnableMove,
-                                self.hCurrentErrorPower,
-                                self.hCurrentErrorCmd,
-                                self.hBusy)
+                                self.rBusy,
+                                "Rot. angle")
+            
+            
+            while loops != 0:
+                # Reach out for box
+                self.movePosTarget(500,
+                                    self.hTargetPosition,
+                                    self.hActualPositionInt,
+                                    self.hEnableMove,
+                                    self.hCurrentErrorPower,
+                                    self.hCurrentErrorCmd,
+                                    self.hBusy,
+                                    "Hor. pos")
+                # Lift the box
+                self.movePosTarget(900,
+                                    self.vTargetPosition,
+                                    self.vActualPositionInt,
+                                    self.vEnableMove,
+                                    self.vCurrentErrorPower,
+                                    self.vCurrentErrorCmd,
+                                    self.vBusy,
+                                    "Vert. pos")
+                # Pull the box in
+                self.movePosTarget(0,
+                                    self.hTargetPosition,
+                                    self.hActualPositionInt,
+                                    self.hEnableMove,
+                                    self.hCurrentErrorPower,
+                                    self.hCurrentErrorCmd,
+                                    self.hBusy,
+                                    "Hor. pos")
+                # Rotate to zero, before lowering
+                self.movePosTarget(-2,
+                                    self.rTargetPosition,
+                                    self.rActualPositionInt,
+                                    self.rEnableMove,
+                                    self.rCurrentErrorPower,
+                                    self.rCurrentErrorCmd,
+                                    self.rBusy,
+                                    "X")
+                # Descend down to pallet
+                self.movePosTarget(269,
+                                    self.vTargetPosition,
+                                    self.vActualPositionInt,
+                                    self.vEnableMove,
+                                    self.vCurrentErrorPower,
+                                    self.vCurrentErrorCmd,
+                                    self.vBusy,
+                                    "Vert. pos")
+                # Extend snake to position box on pallet.
+                self.movePosTarget(500,
+                                    self.hTargetPosition,
+                                    self.hActualPositionInt,
+                                    self.hEnableMove,
+                                    self.hCurrentErrorPower,
+                                    self.hCurrentErrorCmd,
+                                    self.hBusy,
+                                    "Hor. pos")
+                # Descend to let go of box
+                self.movePosTarget(145,
+                                    self.vTargetPosition,
+                                    self.vActualPositionInt,
+                                    self.vEnableMove,
+                                    self.vCurrentErrorPower,
+                                    self.vCurrentErrorCmd,
+                                    self.vBusy,
+                                    "Vert. pos")
+                # Retract snake to zero
+                self.movePosTarget(0,
+                                    self.hTargetPosition,
+                                    self.hActualPositionInt,
+                                    self.hEnableMove,
+                                    self.hCurrentErrorPower,
+                                    self.hCurrentErrorCmd,
+                                    self.hBusy,
+                                    "Hor. pos")
+                # Extend snake to position box on pallet.
+                self.movePosTarget(500,
+                                    self.hTargetPosition,
+                                    self.hActualPositionInt,
+                                    self.hEnableMove,
+                                    self.hCurrentErrorPower,
+                                    self.hCurrentErrorCmd,
+                                    self.hBusy,
+                                    "Hor. pos")
+                # Ascend box up from pallet
+                self.movePosTarget(260,
+                                    self.vTargetPosition,
+                                    self.vActualPositionInt,
+                                    self.vEnableMove,
+                                    self.vCurrentErrorPower,
+                                    self.vCurrentErrorCmd,
+                                    self.vBusy,
+                                    "Vert. pos")
+                # Retract snake to zero
+                self.movePosTarget(0,
+                                    self.hTargetPosition,
+                                    self.hActualPositionInt,
+                                    self.hEnableMove,
+                                    self.hCurrentErrorPower,
+                                    self.hCurrentErrorCmd,
+                                    self.hBusy,
+                                    "Hor. pos")
+                # Lift the box
+                self.movePosTarget(900,
+                                    self.vTargetPosition,
+                                    self.vActualPositionInt,
+                                    self.vEnableMove,
+                                    self.vCurrentErrorPower,
+                                    self.vCurrentErrorCmd,
+                                    self.vBusy,
+                                    "Vert. pos")
+                # Rotate towards table
+                self.movePosTarget(90,
+                                    self.rTargetPosition,
+                                    self.rActualPositionInt,
+                                    self.rEnableMove,
+                                    self.rCurrentErrorPower,
+                                    self.rCurrentErrorCmd,
+                                    self.rBusy,
+                                    "X")
+                # Extend snake to position box on pallet.
+                self.movePosTarget(500,
+                                    self.hTargetPosition,
+                                    self.hActualPositionInt,
+                                    self.hEnableMove,
+                                    self.hCurrentErrorPower,
+                                    self.hCurrentErrorCmd,
+                                    self.hBusy,
+                                    "Hor. pos")
+                #Ascend to given position before reaching for box
+                self.movePosTarget(730,
+                                    self.vTargetPosition,
+                                    self.vActualPositionInt,
+                                    self.vEnableMove,
+                                    self.vCurrentErrorPower,
+                                    self.vCurrentErrorCmd,
+                                    self.vBusy,
+                                    "Vert. pos")
+                # Retract snake to zero
+                self.movePosTarget(0,
+                                    self.hTargetPosition,
+                                    self.hActualPositionInt,
+                                    self.hEnableMove,
+                                    self.hCurrentErrorPower,
+                                    self.hCurrentErrorCmd,
+                                    self.hBusy,
+                                    "Hor. pos")
+                loops -= 1
+                
             
         except Exception as e:
             logging.exception("Exception flew by! \t|\t "+e.__str__())
