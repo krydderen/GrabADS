@@ -304,10 +304,6 @@ class GRAB(object):
         if self.CONNECTION: self.stopVertical();self.stopRotation();self.stopHorizontal()
         logging.info("All Axis \t|\t STOPPED")
     
-    # def disableAllAxis(self) -> None:
-        # if self.CONNECTION: self.disableVerticalAxis();self.disableRotation
-        
-    
     
     ######################################################################
     # Position mode, change this to take in args to decide manual or standby.
