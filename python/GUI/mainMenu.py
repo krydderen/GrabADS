@@ -243,6 +243,8 @@ class Ui_MainWindow(object):
         self.setPosButton.setPalette(palette1)
         self.setPosButton.setFont(font1)
         self.setPosButton.setStyleSheet(u"background-color: rgb(73, 35, 69);")
+        self.setPosButton.setCheckable(True)
+        self.setPosButton.setAutoDefault(False)
 
         self.verticalLayout.addWidget(self.setPosButton, 0, Qt.AlignHCenter|Qt.AlignVCenter)
 
@@ -394,6 +396,7 @@ class Ui_MainWindow(object):
         self.manualButton.clicked.connect(self.menuToManual)
         self.pickBoxButton.toggled.connect(self.pickingBox)
 
+        self.setPosButton.setDefault(False)
         self.pickBoxButton.setDefault(False)
 
 
@@ -420,8 +423,8 @@ class Ui_MainWindow(object):
             grab.close()
             self.connectedRadioButton.setChecked(False)
             
+            
     def homing(self):
-        
         # logging.info('homing')
         self.homingRadioButton.setChecked(True)
         grab.startHoming()
@@ -429,7 +432,7 @@ class Ui_MainWindow(object):
         # logging.info('done')
         self.homingRadioButton.setChecked(False)
         # logging.info('is false')
-        self.homingButton.setChecked(False)
+        # self.homingButton.setChecked(False)
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
