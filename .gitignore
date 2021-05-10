@@ -1,0 +1,10 @@
+
+.vscode/
+
+python/ADS/testing/__pycache__/
+
+*.pyc
+
+python/GUI/testing/tempCodeRunnerFile.py
+
+python/GUI/tempCodeRunnerFile.py

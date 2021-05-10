@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
+  <GVL Name="GVL" Id="{e15296e5-ac30-4ffc-ae54-f5edceddab02}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL
+	stateGRAB: INT := 0;
+	newStateGRAB: INT := 0;
+	currentStateGRAB: INT;
+	
+	homingState: INT := 1;
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

@@ -9,16 +9,16 @@ print(plc.read_state())
 # input('Enter to continue..')
 ################################################################
 # Setup symbols
+DRIVETIME   :float  = 2 
+WAITTIME    :float  = 0.5
 ################################################################
 # Horizontal Axis 
-################################################################
 hEnable      = plc.get_symbol('HAVL.enable')
 hForward     = plc.get_symbol('HAVL.forward')
 hBackward    = plc.get_symbol('HAVL.backwards')
 hResetError  = plc.get_symbol('HAVL.resetError')
 ################################################################
 # Rotational Axis 
-################################################################
 rEnable      = plc.get_symbol('RAVL.enable')
 rForward     = plc.get_symbol('RAVL.forward')
 rBackward    = plc.get_symbol('RAVL.backwards')
@@ -26,7 +26,6 @@ rResetError  = plc.get_symbol('RAVL.resetError')
 
 ################################################################
 # Testing symbols
-################################################################
 hEnable.write(False)
 hForward.write(False)
 hBackward.write(False)
@@ -47,24 +46,23 @@ print('Rot forward\t',rForward.read())
 print('Rot backward\t',rBackward.read())
 print('Rot reseterror\t',rResetError.read())
 
-input('Enter to continue..')
+#input('Enter to continue..')
 
 ################################################################
 # Resetting eventual error codes
-################################################################
 print('resetting')
 hResetError.write(True)
-sleep(1)
+sleep(WAITTIME)
 hResetError.write(False)
-sleep(1)
+sleep(WAITTIME)
 print('Hor Error\t',hResetError.read())
 
 print('\n')
 
 rResetError.write(True)
-sleep(1)
+sleep(WAITTIME)
 rResetError.write(False)
-sleep(1)
+sleep(WAITTIME)
 print('Rot Error\t', rResetError.read())
 
 input('Enter to continue..')
@@ -72,65 +70,52 @@ input('Enter to continue..')
 
 ################################################################
 # Driving Horizontal Axis 
-################################################################
-sleep(1)
+sleep(WAITTIME)
 hEnable.write(True)
-# rEnable.write(True)
 print('enable \t', hEnable.read())
 sleep(2)
 hForward.write(True)
-# rForward.write(True)
 print('forward \t', hForward.read())
-sleep(4)
+sleep(DRIVETIME)
 hForward.write(False)
-# rForward.write(False)
 print('forward \t', hForward.read())
+
+
 sleep(2)
 hBackward.write(True)
-#rBackward.write(True)
 print('backward \t', hBackward.read())
-sleep(4)
+sleep(DRIVETIME)
 hBackward.write(False)
-#rBackward.write(False)
 print('backward \t', hBackward.read())
 sleep(2)
 hEnable.write(False)
-#rEnable.write(False)
 print('enabled \t', hEnable.read())
-sleep(1)
 
 ################################################################
 # Driving Rotational Axis 
-################################################################
-sleep(1)
-# hEnable.write(True)
+sleep(WAITTIME)
 rEnable.write(True)
 print('enable \t', rEnable.read())
 sleep(2)
-# hForward.write(True)
 rForward.write(True)
 print('forward \t', rForward.read())
-sleep(4)
-# hForward.write(False)
+sleep(DRIVETIME)
 rForward.write(False)
 print('forward \t', rForward.read())
+
+
 sleep(2)
-# hBackward.write(True)
 rBackward.write(True)
 print('backward \t', rBackward.read())
-sleep(4)
-# hBackward.write(False)
+sleep(DRIVETIME)
 rBackward.write(False)
 print('backward \t', rBackward.read())
 sleep(2)
-# hEnable.write(False)
 rEnable.write(False)
 print('enabled \t', rEnable.read())
-sleep(1)
-
+sleep(WAITTIME)
 
 ##############################################################
 # Close the connection 
-##############################################################
 plc.close()
 print('closed')
